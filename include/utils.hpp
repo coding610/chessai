@@ -8,17 +8,12 @@
 
 namespace utils {
 
-inline void DEB(std::string str) {
-    std::cout << str;
-}
-
-inline void DEB(int i) {
-    std::cout << i << "\n";
-}
-
-inline void DEB(chess::Move m) {
-    std::cout << m << "\n";
-}
+inline void DEB(std::string str) { std::cout << str << "\n"; }
+inline void DEB(int i) { std::cout << i << "\n"; }
+inline void DEB(chess::Move m) { std::cout << m << "\n"; }
+inline void DBN(std::string str) { std::cout << str; }
+inline void DBN(int i) { std::cout << i; }
+inline void DBN(chess::Move m) { std::cout << m; }
 
 inline bool is_clrw(chess::Color color) {
     if (color == chess::Color::WHITE) {
@@ -40,6 +35,14 @@ inline int get_piece_index(Piece value) {
             return i;
     }
     return -1; // If the value is not found
+}
+
+inline int get_move_index(chess::Movelist vec, chess::Move m) {
+    for (int i = 0; i < vec.size(); i++) {
+        if (vec[i] == m) return i;
+    }
+
+    return -1;
 }
 
 inline chess::Move is_in_moves(chess::Movelist moves, std::string currently_moving, std::string moving_to) {

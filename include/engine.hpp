@@ -15,6 +15,7 @@ private:
     int MAX_DEPTH; // NEED TO BE EVEN
     int positions_searched = 0;
     bool ab_pruning;
+    int ab = 0;
 
     // Objects
     chess::Board* board;

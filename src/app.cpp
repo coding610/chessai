@@ -5,6 +5,9 @@
 #include "engine.hpp"
 #include "utils.hpp"
 
+
+using utils::DEB;
+
 void App::run() {
     while (this->window->isOpen()) {
         while (this->window->pollEvent(this->event)) {
@@ -23,20 +26,24 @@ void App::run() {
                     if (this->history_mode) {
                         switch(this->event.key.code) {
                             case sf::Keyboard::Left:
+                                DEB("1");
                                 if (this->move_history_index != 0)
                                     break;
                                 this->move_history_index--;
                                 this->board.unmakeMove(this->move_history[this->move_history_index]);
                                 break;
+
                             case sf::Keyboard::Right:
                                 if (this->move_history_index == this->move_history.size())
                                     break;
                                 this->board.makeMove(this->move_history[this->move_history_index]);
                                 this->move_history_index++;
                                 break;
+
                             case sf::Keyboard::A:
                                 this->show_arrows = !this->show_arrows;
                                 break;
+
                             default: break;
                         }
                     }
@@ -63,15 +70,15 @@ void App::run() {
             continue;
         }
 
-        if (this->engine2 == nullptr) {
-            if (this->board.sideToMove() == chess::Color::WHITE) this->move_piece();
+        if (this->engine2 == nullptr) { // Human vs AI
+            if (this->board.sideToMove() == this->playing_color) this->move_piece();
             else {
                 chess::Move move = this->engine1->think();
                 this->move_history_index++;
                 this->move_history.push_back(move);
                 this->board.makeMove(move);
             }
-        } else {
+        } else { // AI vs AI
             chess::Move move;
             if (this->board.sideToMove() == chess::Color::WHITE) move = this->engine1->think();
             else move = this->engine2->think();

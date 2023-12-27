@@ -5,20 +5,29 @@
 #include "utils.hpp"
 
 using utils::DEB;
+using utils::DBN;
 
 chess::Move Engine::think() {
     this->positions_searched = 0;
+    this->ab = 0;
     this->best_path = {};
 
-    float alpha =  std::numeric_limits<float>::min();
+    float alpha = std::numeric_limits<float>::min();
     float beta = std::numeric_limits<float>::max();
 
     chess::Move best_move;
     float best_value = this->worst_value;
-    for (auto& move : utils::legal_moves(this->board)) {
+
+    chess::Movelist legal_moves = utils::legal_moves(this->board);
+    for (auto& move : legal_moves) {
+        DBN(this->color);
+        DBN(" Progress: ");
+        DBN(100 * (utils::get_move_index(legal_moves, move) + 1) / legal_moves.size()); DBN("%");
+        DBN("\n");
+
         this->board->makeMove(move);
-        
-        float value = this->search(this->board, 1, alpha, beta, utils::is_clrw(this->color));
+        float value = this->search(this->board, 1, alpha, beta, !utils::is_clrw(this->color));
+        this->board->unmakeMove(move);
 
         if (
             (this->color == chess::Color::WHITE && value > best_value) ||
@@ -27,12 +36,19 @@ chess::Move Engine::think() {
             best_value = value;
             best_move = move;
         } 
-
-        this->board->unmakeMove(move);
     }
 
-    DEB("Positions_searched: "); DEB(this->positions_searched);
-    DEB("Move choosen: "); DEB(best_move);
+    this->best_path.push_back(best_move);
+
+    DBN("Positions_searched: "); DEB(this->positions_searched);
+    DBN("Move choosen: "); DEB(best_move);
+    DBN("Engines evaluation: "); DEB(best_value);
+    DBN("AB: "); DEB(this->ab);
+    if (this->color == chess::Color::BLACK) {
+        DEB(legal_moves.size());
+        DEB(this->MAX_DEPTH);
+    }
+
     return best_move;
 }
 
@@ -65,7 +81,8 @@ float Engine::search(chess::Board* b, int depth, float alpha, float beta, bool c
             beta = std::min(alpha, value);
         }
         if (beta <= alpha) {
-            break; // *Snip*
+            this->ab++;
+            return best_value; // * Snip *
         }
     }
 
