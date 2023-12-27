@@ -1,0 +1,5 @@
+-Iinclude
+-std=c++17
+
+-I/usr/local/include/include
+-L/usr/local/Cellar/sfml/2.6.0/lib -lsfml-graphics -lsfml-window -lsfml-system
