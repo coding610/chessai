@@ -15,12 +15,8 @@ private:
     int MAX_DEPTH;
 
     int positions_searched = 0;
-    int depth3 = 0;
-    int recursion_depth = 0;
-    int total_searched_moves = 0;
     bool ab_pruning;
     int ab = 0;
-    int ab2 = 0;
 
     // Objects
     chess::Board* board;
@@ -29,7 +25,8 @@ private:
     float best_value;
 
 public:
-    std::vector<chess::Move> best_path;
+    std::vector<std::vector<chess::Move>> best_path;
+    std::vector<chess::Move> total_path;
     Engine(chess::Color color, bool ab_pruning, int depth);
     void setBoard(chess::Board* b);
 

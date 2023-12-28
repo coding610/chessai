@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <string>
 #include <limits>
 #include "chess.hpp"
@@ -8,22 +7,31 @@
 using utils::DEB;
 using utils::DBN;
 
-chess::Move Engine::think() {
-    this->positions_searched = 0;
-    this->ab = 0;
-    this->best_path = {};
 
-    float alpha = -std::numeric_limits<float>::max();
-    float beta = std::numeric_limits<float>::max();
+chess::Move Engine::think() {
+    std::cout << "---------------- Engine Color: " << this->color << "----------------\n";
+
+    this->positions_searched = 0;
+    this->best_path = {};
+    this->total_path = {};
+
+    float alpha, beta;
+    if (this->color == chess::Color::WHITE) {
+        alpha = (float) std::numeric_limits<int>::max();
+        beta = (float) -std::numeric_limits<int>::max();
+    } else {
+        alpha = (float) -std::numeric_limits<int>::max();
+        beta = (float) std::numeric_limits<int>::max();
+    }
 
     chess::Move best_move;
     float best_value = this->worst_value;
 
     chess::Movelist legal_moves = utils::legal_moves(*this->board);
     for (auto& move : legal_moves) {
-        std::cout << "----------Color: " << this->color << "---------- // " << "progress: "
+        std::cout << "Progress: "
                   << 100 * (utils::get_move_index(legal_moves, move) + 1) / legal_moves.size()
-                  << "%\n";
+                  << "%\n" << std::flush;
 
         this->board->makeMove(move);
         float value = this->search(*this->board, 2, alpha, beta, utils::is_clrw(this->board->sideToMove()));
@@ -33,74 +41,118 @@ chess::Move Engine::think() {
             best_value = std::max(best_value, value);
         } else {
             best_value = std::min(best_value, value);
-        } if (best_value == value) {
+        } if (value == best_value) {
             best_move = move;
         }
     }
+    ///
+    ////// REMOVE WRONG PATH //////
+    std::vector<std::vector<chess::Move>> npath = {};
+    for (auto path : this->best_path) {
+        if (path.size() == MAX_DEPTH - 1) {
+            npath.push_back(path);
+        }
+    }
+    this->best_path = {};
+    for (int i = 0; i < npath.size(); i++) {
+        this->best_path[i] = npath[i];
+    }
 
-    this->best_path.push_back(best_move);
+    ////// PUSH BACK NEW VECTOR //////
+    std::vector<chess::Move> branch = this->best_path[utils::get_move_index(legal_moves, best_move)];
+    branch.push_back(best_move);
+    for (int i = 0; i < branch.size(); i++) {
+        this->total_path.push_back(branch[i]);
+    }
 
-    DBN("\nPositions_searched: "); DEB(this->positions_searched);
-    DBN("Move choosen: "); DEB(best_move);
+    DBN("Positions searched: "); DEB(this->positions_searched);
     DBN("Engines evaluation: "); DEB(best_value);
     DBN("AB: "); DEB(this->ab);
-    DBN("AB2: "); DEB(this->ab2);
-    DBN("Without AB num pos: "); DEB(this->ab2 + this->positions_searched);
-    DBN("Recursion depth: "); DEB(this->recursion_depth);
-    DBN("Total searched moves: "); DEB(this->total_searched_moves);
-    DBN("Depth3: "); DEB(this->depth3);
+    DEB(this->total_path.size());
     DEB("");
 
     return best_move;
 }
 
 float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool clrw) {
-    this->recursion_depth++;
-
-    const float best_possible_value = clrw ? std::numeric_limits<float>::max() : -std::numeric_limits<float>::max();
-    const float worst_possible_value = -best_possible_value;
-    float best_value = worst_possible_value;
+    const float best_possible_evaluation = clrw ? std::numeric_limits<float>::max() : -std::numeric_limits<float>::max();
+    const float worst_possible_evaluation = -best_possible_evaluation;
 
     ////// NO FURTHER RECURSION HANDLELING //////
     if (depth > this->MAX_DEPTH) {
         return this->evaluate_fen(b.getFen());
     } else if (b.isGameOver().second == chess::GameResult::WIN) {
-        return best_possible_value;
+        return best_possible_evaluation;
     } else if (b.isGameOver().second == chess::GameResult::LOSE) {
-        return worst_possible_value;
+        return worst_possible_evaluation;
     } else if (b.isGameOver().second == chess::GameResult::DRAW) {
         return 0.0;
     }
 
-    chess::Movelist legal_moves = utils::legal_moves(b);
-    if (depth == 3) this->total_searched_moves += legal_moves.size();
+    float best_evaluation = worst_possible_evaluation;
+    chess::Move best_move = chess::Move::NULL_MOVE;
 
-    int i = 0;
+    chess::Movelist legal_moves = utils::legal_moves(b);
     for (auto& move : legal_moves) {
         ////// RECURSION //////
         b.makeMove(move);
-        float value = this->search(b, depth + 1, beta, alpha, !clrw);
+
+        float evaluation = this->search(b, depth + 1, -beta, -alpha, !clrw);
+
         b.unmakeMove(move);
 
-        ////// ALPHA BETA PRUNING //////
-        if (clrw) {
-            best_value = std::max(best_value, value);
-            if (!this->ab_pruning) continue;
-            alpha = std::max(alpha, value);
-        } else {
-            best_value = std::min(best_value, value);
-            if (!this->ab_pruning) continue;
-            beta = std::min(beta, value);
+        ////// EVALUATION //////
+        best_evaluation = clrw ? std::max(best_evaluation, evaluation) : std::min(best_evaluation, evaluation);
+        if (evaluation == best_evaluation && move != chess::Move::NULL_MOVE) {
+            best_move = move;
         }
 
+        ////// ALPHA BETA PRUNING //////
+        if (!this->ab_pruning) continue;
+
+        alpha = std::max(alpha, evaluation);
         if (beta <= alpha) {
+            this->best_path.push_back({best_move});
             this->ab++;
-            this->ab2 += utils::legal_moves(b).size() - utils::get_move_index(legal_moves, move);
-            return best_value; // * Snip *
+            return best_evaluation;
         }
     }
 
-    return best_value;
+    if (depth == MAX_DEPTH) { // best_path.size() == 0
+        this->best_path.push_back({best_move});
+        return best_evaluation;
+    }
+
+    ////// REMOVE WRONG PATH //////
+    std::vector<std::vector<chess::Move>> npath = {};
+    for (auto path : this->best_path) {
+        if (path.size() == MAX_DEPTH - depth) {
+            npath.push_back(path);
+        }
+    }
+
+    this->best_path = {};
+    for (int i = 0; i < npath.size(); i++) {
+        this->best_path.push_back(npath[i]);
+    }
+
+
+    ////// PUSH BACK NEW VECTOR //////
+    std::vector<chess::Move> branch = this->best_path[utils::get_move_index(legal_moves, best_move)];
+    branch.push_back(best_move);
+    this->best_path.push_back(branch);
+
+    if (depth == 3) {
+        DEB("PATHS: ");
+        for (auto& bp : this->best_path) {
+            DEB("BRANCH: ");
+            for (auto& br : bp) {
+                DEB(br);
+            }
+        }
+    }
+ 
+    return best_evaluation;
 }
 
 float Engine::evaluate_fen(std::string fen) {
@@ -132,11 +184,11 @@ Engine::Engine(chess::Color color, bool ab_pruning, int MAX_DEPTH) {
 
     this->color = color;
     if (color == chess::Color::WHITE) {
-        this->best_value = std::numeric_limits<float>::max();
-        this->worst_value = -this->best_value;
+        this->best_value = (float) std::numeric_limits<int>::max();
+        this->worst_value = (float) -std::numeric_limits<int>::max();
     } else {
-        this->best_value = -std::numeric_limits<float>::max();
-        this->worst_value = -this->best_value;
+        this->best_value = (float) -std::numeric_limits<int>::max();
+        this->worst_value = (float) std::numeric_limits<int>::max();
     }
 }
 

@@ -26,8 +26,7 @@ void App::run() {
                     if (this->history_mode) {
                         switch(this->event.key.code) {
                             case sf::Keyboard::Left:
-                                DEB("1");
-                                if (this->move_history_index != 0)
+                                if (this->move_history_index == 0)
                                     break;
                                 this->move_history_index--;
                                 this->board.unmakeMove(this->move_history[this->move_history_index]);
@@ -70,7 +69,7 @@ void App::run() {
             continue;
         }
 
-        if (this->engine2 == nullptr) { // Human vs AI
+        if (this->playing_color != chess::Color::NONE) { // Human vs AI
             if (this->board.sideToMove() == this->playing_color) this->move_piece();
             else {
                 chess::Move move = this->engine1->think();
@@ -96,7 +95,7 @@ void App::run() {
 }
 
 void App::display_arrows() {
-    for (auto m : this->engine1->best_path) {
+    for (auto m : this->engine1->total_path) {
         utils::Line line(
             sf::Vector2f(
                 utils::frti(m.from().file()) * this->cellsize + this->cellsize / 2,
@@ -198,7 +197,7 @@ void App::draw_board() {
     }
 }
 
-App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color = chess::Color::NONE, bool scorewindow = true) {
+App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color = chess::Color::WHITE, bool scorewindow = false) {
     this->resolution = sf::VideoMode(800, 800);
     this->cellsize = this->resolution.width / 8.0;
     this->window = new sf::RenderWindow(this->resolution, "Chess - Game", sf::Style::Titlebar | sf::Style::Close);
@@ -211,13 +210,15 @@ App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color 
     this->game_finished = false;
 
     this->engine1 = engine1;
-    this->engine2 = engine2;
     this->engine1->setBoard(&this->board);
-    this->engine2->setBoard(&this->board);
-    if (this->engine2 == nullptr){
+
+    if (playing_color != chess::Color::NONE) {
         this->playing_color = playing_color;
         if (this->playing_color == chess::Color::WHITE) this->engine_color = chess::Color::BLACK;
         else this->engine_color = chess::Color::WHITE;
+    } else {
+        this->engine2 = engine2;
+        this->engine2->setBoard(&this->board);
     }
 
     for (int i = 0; i <= 18; i++)
@@ -267,5 +268,8 @@ App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color 
 App::~App() {
     delete this->window;
     delete this->engine1;
-    delete this->engine2;
+
+    if (this->playing_color == chess::Color::NONE) {
+        delete this->engine2;
+    }
 }
