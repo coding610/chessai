@@ -23,9 +23,9 @@ inline bool is_clrw(chess::Color color) {
     }
 }
 
-inline chess::Movelist legal_moves(chess::Board* b) {
+inline chess::Movelist legal_moves(chess::Board& b) {
     chess::Movelist moves;
-    chess::movegen::legalmoves(moves, *b);
+    chess::movegen::legalmoves(moves, b);
     return moves;
 }
 

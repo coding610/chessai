@@ -12,10 +12,15 @@ private:
     const int BISHOP_VALUE = 300;
     const int ROOK_VALUE = 500;
     const int QUEEN_VALUE = 900;
-    int MAX_DEPTH; // NEED TO BE EVEN
+    int MAX_DEPTH;
+
     int positions_searched = 0;
+    int depth3 = 0;
+    int recursion_depth = 0;
+    int total_searched_moves = 0;
     bool ab_pruning;
     int ab = 0;
+    int ab2 = 0;
 
     // Objects
     chess::Board* board;
@@ -29,6 +34,6 @@ public:
     void setBoard(chess::Board* b);
 
     chess::Move think();
-    float search(chess::Board* board, int depth, float alpha, float beta, bool clrw);
+    float search(chess::Board& board, int depth, float alpha, float beta, bool clrw);
     float evaluate_fen(std::string fen);
 };
