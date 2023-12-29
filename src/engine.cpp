@@ -45,25 +45,6 @@ chess::Move Engine::think() {
             best_move = move;
         }
     }
-    ///
-    ////// REMOVE WRONG PATH //////
-    std::vector<std::vector<chess::Move>> npath = {};
-    for (auto path : this->best_path) {
-        if (path.size() == MAX_DEPTH - 1) {
-            npath.push_back(path);
-        }
-    }
-    this->best_path = {};
-    for (int i = 0; i < npath.size(); i++) {
-        this->best_path[i] = npath[i];
-    }
-
-    ////// PUSH BACK NEW VECTOR //////
-    std::vector<chess::Move> branch = this->best_path[utils::get_move_index(legal_moves, best_move)];
-    branch.push_back(best_move);
-    for (int i = 0; i < branch.size(); i++) {
-        this->total_path.push_back(branch[i]);
-    }
 
     DBN("Positions searched: "); DEB(this->positions_searched);
     DBN("Engines evaluation: "); DEB(best_value);
@@ -96,9 +77,7 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
     for (auto& move : legal_moves) {
         ////// RECURSION //////
         b.makeMove(move);
-
         float evaluation = this->search(b, depth + 1, -beta, -alpha, !clrw);
-
         b.unmakeMove(move);
 
         ////// EVALUATION //////
@@ -124,34 +103,24 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
     }
 
     ////// REMOVE WRONG PATH //////
-    std::vector<std::vector<chess::Move>> npath = {};
-    for (auto path : this->best_path) {
-        if (path.size() == MAX_DEPTH - depth) {
-            npath.push_back(path);
+    std::vector<std::vector<chess::Move>> depth_path = {};
+    for (auto& path : this->best_path) {
+        if (path.size() == MAX_DEPTH - depth + 1) {
+            depth_path.push_back(path);
         }
-    }
-
-    this->best_path = {};
-    for (int i = 0; i < npath.size(); i++) {
-        this->best_path.push_back(npath[i]);
     }
 
 
     ////// PUSH BACK NEW VECTOR //////
-    std::vector<chess::Move> branch = this->best_path[utils::get_move_index(legal_moves, best_move)];
+    std::vector<chess::Move> branch = this->best_path[depth_path.size() + utils::get_move_index(legal_moves, best_move)];
     branch.push_back(best_move);
-    this->best_path.push_back(branch);
+    depth_path.push_back(branch);
 
-    if (depth == 3) {
-        DEB("PATHS: ");
-        for (auto& bp : this->best_path) {
-            DEB("BRANCH: ");
-            for (auto& br : bp) {
-                DEB(br);
-            }
-        }
+    this->best_path = {};
+    for (int i = 0; i < depth_path.size(); i++) {
+        this->best_path.push_back(depth_path[i]);
     }
- 
+
     return best_evaluation;
 }
 

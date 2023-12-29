@@ -11,6 +11,12 @@ namespace utils {
 inline void DEB(std::string str) { std::cout << str << "\n"; }
 inline void DEB(int i) { std::cout << i << "\n"; }
 inline void DEB(chess::Move m) { std::cout << m << "\n"; }
+inline void DEB(std::vector<std::vector<chess::Move>> vec) {
+    for (auto& a : vec) {
+        DEB("BRANCH: ");
+        for (auto& b : a) DEB(b);
+    }
+}
 inline void DBN(std::string str) { std::cout << str; }
 inline void DBN(int i) { std::cout << i; }
 inline void DBN(chess::Move m) { std::cout << m; }
