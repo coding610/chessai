@@ -25,31 +25,35 @@ chess::Move Engine::think() {
     }
 
     chess::Move best_move;
-    float best_value = this->worst_value;
+    float best_evaluation = this->worst_value;
 
     chess::Movelist legal_moves = utils::legal_moves(*this->board);
     for (auto& move : legal_moves) {
+        this->i++;
         std::cout << "Progress: "
                   << 100 * (utils::get_move_index(legal_moves, move) + 1) / legal_moves.size()
                   << "%\n" << std::flush;
 
         this->board->makeMove(move);
-        float value = this->search(*this->board, 2, alpha, beta, utils::is_clrw(this->board->sideToMove()));
+        float evaluation = this->search(*this->board, 2, alpha, beta, utils::is_clrw(this->board->sideToMove()));
         this->board->unmakeMove(move);
 
         if (this->color == chess::Color::WHITE) {
-            best_value = std::max(best_value, value);
+            best_evaluation = std::max(best_evaluation, evaluation);
         } else {
-            best_value = std::min(best_value, value);
-        } if (value == best_value) {
+            best_evaluation = std::min(best_evaluation, evaluation);
+        } if (evaluation == best_evaluation) {
             best_move = move;
         }
     }
 
+    ////// BEST PATH //////
+    this->total_path = this->best_path[utils::get_move_index(legal_moves, best_move)];
+
     DBN("Positions searched: "); DEB(this->positions_searched);
-    DBN("Engines evaluation: "); DEB(best_value);
-    DBN("AB: "); DEB(this->ab);
-    DEB(this->total_path.size());
+    DBN("Engines evaluation: "); DEB(best_evaluation);
+    DEB(best_move);
+    DEB(this->total_path);
     DEB("");
 
     return best_move;
@@ -105,7 +109,7 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
     ////// REMOVE WRONG PATH //////
     std::vector<std::vector<chess::Move>> depth_path = {};
     for (auto& path : this->best_path) {
-        if (path.size() == MAX_DEPTH - depth + 1) {
+        if (path.size() >= MAX_DEPTH - depth + 1) {
             depth_path.push_back(path);
         }
     }
@@ -116,10 +120,7 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
     branch.push_back(best_move);
     depth_path.push_back(branch);
 
-    this->best_path = {};
-    for (int i = 0; i < depth_path.size(); i++) {
-        this->best_path.push_back(depth_path[i]);
-    }
+    utils::copy_and_erease_vector(&this->best_path, depth_path);
 
     return best_evaluation;
 }

@@ -20,6 +20,9 @@ void App::run() {
                     switch (this->event.key.code) {
                         case sf::Keyboard::Escape:
                             this->history_mode = !this->history_mode; break;
+                        case sf::Keyboard::A:
+                            this->show_arrows = !this->show_arrows;
+                            break;
                         default: break;
                     }
 
@@ -39,13 +42,10 @@ void App::run() {
                                 this->move_history_index++;
                                 break;
 
-                            case sf::Keyboard::A:
-                                this->show_arrows = !this->show_arrows;
-                                break;
-
                             default: break;
                         }
                     }
+
                 default: break;
             }
         }
@@ -54,7 +54,16 @@ void App::run() {
         if (this->history_mode) {
             this->draw_board();
             this->draw_position();
-            if (this->show_arrows) this->display_arrows();
+
+            if (this->show_arrows) {
+                if (this->playing_color != chess::Color::NONE) {
+                    this->display_arrows(this->engine1);
+                } else {
+                    this->display_arrows(this->engine1);
+                    this->display_arrows(this->engine2);
+                }
+            }
+
             this->window->display();
             continue;
         }
@@ -64,6 +73,7 @@ void App::run() {
             (chess::GameResultReason::NONE, chess::GameResult::NONE)
             && !this->game_finished
         ) {
+            // HISTORY MODE == TRUE HERE?
             std::cout << "GAME OVER\n";
             this->game_finished = true;
             continue;
@@ -89,37 +99,71 @@ void App::run() {
 
         this->draw_board();
         this->draw_position();
-        if (this->show_arrows) this->display_arrows();
+        if (this->show_arrows) {
+            if (this->playing_color != chess::Color::NONE) {
+                this->display_arrows(this->engine1);
+            } else {
+                this->display_arrows(this->engine1);
+                this->display_arrows(this->engine2);
+            }
+        }
         this->window->display();
     }
 }
 
-void App::display_arrows() {
-    for (auto m : this->engine1->total_path) {
+void App::display_arrows(Engine* engine) {
+    for (int i = 0; i < this->engine1->total_path.size(); i++) {
+        auto move = this->engine1->total_path[i];
+        auto color = i * 255 / this->engine1->total_path.size();
+
         utils::Line line(
             sf::Vector2f(
-                utils::frti(m.from().file()) * this->cellsize + this->cellsize / 2,
-                utils::frti(m.from().rank()) * this->cellsize + this->cellsize / 2
+                utils::frti(move.from().file()) * this->cellsize + this->cellsize / 2,
+                7.5 * this->cellsize - this->cellsize * utils::frti(move.from().rank())
             ),
             sf::Vector2f(
-                utils::frti(m.to().file()) * this->cellsize + this->cellsize / 2,
-                utils::frti(m.to().rank()) * this->cellsize + this->cellsize / 2
+                utils::frti(move.to().file()) * this->cellsize + this->cellsize / 2,
+                7.5 * this->cellsize - this->cellsize * utils::frti(move.to().rank())
             ),
-            sf::Color(232, 220, 113),
+            sf::Color(color, color, color),
             10.0
         );
 
         line.draw(*this->window);
+
+        sf::CircleShape from;
+        from.setFillColor(sf::Color(255, 255, 255));
+        from.setOutlineColor(sf::Color(0, 0, 0));
+        from.setOutlineThickness(2);
+        from.setRadius(10);
+        from.setPosition(
+            line.start_pos.x - from.getRadius(),
+            line.start_pos.y - from.getRadius()
+        );
+
+        sf::CircleShape to;
+        to.setFillColor(sf::Color(0, 0, 0));
+        to.setOutlineColor(sf::Color(255, 255, 255));
+        to.setOutlineThickness(2);
+        to.setRadius(10);
+        to.setPosition(
+            line.end_pos.x - to.getRadius(),
+            line.end_pos.y - to.getRadius()
+        );
+
+        this->window->draw(from);
+        this->window->draw(to);
     }
 }
 
 void App::move_piece() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->currently_moving == "-1") {
         sf::Vector2<int> mousepos = sf::Mouse::getPosition(*(this->window));
-
         this->currently_moving = std::to_string((int) (mousepos.x / this->cellsize)) + std::to_string(8 - (int) (mousepos.y / this->cellsize));
+
         char files[8] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
         this->currently_moving[0] = files[this->currently_moving[0] - '0'];
+
     } else if (this->currently_moving != "-1" && !(sf::Mouse::isButtonPressed(sf::Mouse::Left))) {
         chess::Movelist moves;
         chess::movegen::legalmoves(moves, this->board);
@@ -130,11 +174,11 @@ void App::move_piece() {
         moving_to[0] = files[moving_to[0] - '0'];
 
         chess::Move move = utils::is_in_moves(moves, this->currently_moving, moving_to);
-        if (move != chess::Move::NULL_MOVE) {
-            this->move_history_index++;
-            this->move_history.push_back(move);
-            this->board.makeMove(move);
-        }
+        if (move == chess::Move::NULL_MOVE) return;
+
+        this->move_history_index++;
+        this->move_history.push_back(move);
+        this->board.makeMove(move);
 
         this->currently_moving = "-1";
     }

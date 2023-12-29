@@ -11,15 +11,33 @@ namespace utils {
 inline void DEB(std::string str) { std::cout << str << "\n"; }
 inline void DEB(int i) { std::cout << i << "\n"; }
 inline void DEB(chess::Move m) { std::cout << m << "\n"; }
-inline void DEB(std::vector<std::vector<chess::Move>> vec) {
+
+template<typename T>
+inline void DEB(std::vector<std::vector<T>> vec) {
     for (auto& a : vec) {
         DEB("BRANCH: ");
         for (auto& b : a) DEB(b);
     }
 }
+
+template<typename T>
+inline void DEB(std::vector<T> vec) {
+    for (auto& a : vec) {
+        DEB(a);
+    }
+}
+
 inline void DBN(std::string str) { std::cout << str; }
 inline void DBN(int i) { std::cout << i; }
 inline void DBN(chess::Move m) { std::cout << m; }
+
+template<typename T>
+inline void copy_and_erease_vector(std::vector<T>* ereasev, std::vector<T>& copyv) {
+    *ereasev = {};
+    for (int i = 0; i < copyv.size(); i++) {
+        ereasev->push_back(copyv[i]);
+    }
+}
 
 inline bool is_clrw(chess::Color color) {
     if (color == chess::Color::WHITE) {
@@ -75,7 +93,14 @@ private:
     sf::Vertex vertices[4];
 
 public:
+    sf::Vector2f start_pos;
+    sf::Vector2f end_pos;
+
+public:
     Line(sf::Vector2f startPos, sf::Vector2f endPos, sf::Color color, float thickness) {
+        this->start_pos = startPos;
+        this->end_pos = endPos;
+
         sf::Vector2f direction = endPos - startPos;
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
         sf::Vector2f unitDirection = direction / length;
@@ -96,6 +121,8 @@ public:
     void draw(sf::RenderWindow& window) {
         window.draw(vertices, 4, sf::Quads);
     }
+
+
 };
 
 }

@@ -66,5 +66,5 @@ public:
     void move_piece();
     void draw_position();
     void draw_board();
-    void display_arrows();
+    void display_arrows(Engine* engine);
 };
