@@ -66,7 +66,7 @@ inline int get_move_index(chess::Movelist vec, chess::Move m) {
         if (vec[i] == m) return i;
     }
 
-    return 999999999;
+    return -1;
 }
 
 inline chess::Move is_in_moves(chess::Movelist moves, std::string currently_moving, std::string moving_to) {

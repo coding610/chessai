@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <limits>
 #include "chess.hpp"
 
 
@@ -12,12 +13,13 @@ private:
     const int BISHOP_VALUE = 300;
     const int ROOK_VALUE = 500;
     const int QUEEN_VALUE = 900;
+    const int POSITIVE_INFINITY = std::numeric_limits<float>::max();
+    const int NEGATIVE_INFINITY = -std::numeric_limits<float>::max();
     int MAX_DEPTH;
 
     int positions_searched = 0;
-    bool ab_pruning;
     int ab = 0;
-    int i = 0;
+    bool ab_pruning;
 
     // Objects
     chess::Board* board;

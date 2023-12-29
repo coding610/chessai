@@ -1,5 +1,4 @@
 #include <string>
-#include <limits>
 #include "chess.hpp"
 #include "engine.hpp"
 #include "utils.hpp"
@@ -17,22 +16,20 @@ chess::Move Engine::think() {
 
     float alpha, beta;
     if (this->color == chess::Color::WHITE) {
-        alpha = (float) std::numeric_limits<int>::max();
-        beta = (float) -std::numeric_limits<int>::max();
+        alpha = this->POSITIVE_INFINITY;
+        beta = this->NEGATIVE_INFINITY;
     } else {
-        alpha = (float) -std::numeric_limits<int>::max();
-        beta = (float) std::numeric_limits<int>::max();
+        alpha = this->NEGATIVE_INFINITY;
+        beta = this->POSITIVE_INFINITY;
     }
 
     chess::Move best_move;
     float best_evaluation = this->worst_value;
-
     chess::Movelist legal_moves = utils::legal_moves(*this->board);
     for (auto& move : legal_moves) {
-        this->i++;
         std::cout << "Progress: "
                   << 100 * (utils::get_move_index(legal_moves, move) + 1) / legal_moves.size()
-                  << "%\n" << std::flush;
+                  << "%\r" << std::flush;
 
         this->board->makeMove(move);
         float evaluation = this->search(*this->board, 2, alpha, beta, utils::is_clrw(this->board->sideToMove()));
@@ -52,16 +49,14 @@ chess::Move Engine::think() {
 
     DBN("Positions searched: "); DEB(this->positions_searched);
     DBN("Engines evaluation: "); DEB(best_evaluation);
-    DEB(best_move);
-    DEB(this->total_path);
     DEB("");
 
     return best_move;
 }
 
 float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool clrw) {
-    const float best_possible_evaluation = clrw ? std::numeric_limits<float>::max() : -std::numeric_limits<float>::max();
-    const float worst_possible_evaluation = -best_possible_evaluation;
+    const float best_possible_evaluation = clrw ? this->POSITIVE_INFINITY: this->NEGATIVE_INFINITY;
+    const float worst_possible_evaluation = clrw ? this->NEGATIVE_INFINITY: this->POSITIVE_INFINITY;
 
     ////// NO FURTHER RECURSION HANDLELING //////
     if (depth > this->MAX_DEPTH) {
@@ -76,7 +71,6 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
 
     float best_evaluation = worst_possible_evaluation;
     chess::Move best_move = chess::Move::NULL_MOVE;
-
     chess::Movelist legal_moves = utils::legal_moves(b);
     for (auto& move : legal_moves) {
         ////// RECURSION //////
@@ -84,20 +78,26 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
         float evaluation = this->search(b, depth + 1, -beta, -alpha, !clrw);
         b.unmakeMove(move);
 
+
         ////// EVALUATION //////
-        best_evaluation = clrw ? std::max(best_evaluation, evaluation) : std::min(best_evaluation, evaluation);
-        if (evaluation == best_evaluation && move != chess::Move::NULL_MOVE) {
-            best_move = move;
+        if (clrw) {
+            if (evaluation > best_evaluation) {
+                best_evaluation = evaluation;
+                best_move = move;
+            }
+        } else {
+            if (evaluation < best_evaluation) {
+                best_evaluation = evaluation;
+                best_move = move;
+            }
         }
 
         ////// ALPHA BETA PRUNING //////
-        if (!this->ab_pruning) continue;
-
-        alpha = std::max(alpha, evaluation);
-        if (beta <= alpha) {
-            this->best_path.push_back({best_move});
-            this->ab++;
-            return best_evaluation;
+        if (this->ab_pruning) {
+            alpha = std::max(alpha, evaluation);
+            if (beta <= alpha) {
+                break;
+            }
         }
     }
 
@@ -114,12 +114,13 @@ float Engine::search(chess::Board& b, int depth, float alpha, float beta, bool c
         }
     }
 
-
     ////// PUSH BACK NEW VECTOR //////
+    int index = utils::get_move_index(legal_moves, best_move);
+    if (index == -1) best_move = legal_moves[0];
+
     std::vector<chess::Move> branch = this->best_path[depth_path.size() + utils::get_move_index(legal_moves, best_move)];
     branch.push_back(best_move);
     depth_path.push_back(branch);
-
     utils::copy_and_erease_vector(&this->best_path, depth_path);
 
     return best_evaluation;
@@ -149,16 +150,18 @@ float Engine::evaluate_fen(std::string fen) {
 }
 
 Engine::Engine(chess::Color color, bool ab_pruning, int MAX_DEPTH) {
+    DEB(this->POSITIVE_INFINITY);
+    DEB(this->NEGATIVE_INFINITY);
     this->MAX_DEPTH = MAX_DEPTH;
     this->ab_pruning = ab_pruning;
 
     this->color = color;
     if (color == chess::Color::WHITE) {
-        this->best_value = (float) std::numeric_limits<int>::max();
-        this->worst_value = (float) -std::numeric_limits<int>::max();
+        this->best_value = this->POSITIVE_INFINITY;
+        this->worst_value = this->NEGATIVE_INFINITY;
     } else {
-        this->best_value = (float) -std::numeric_limits<int>::max();
-        this->worst_value = (float) std::numeric_limits<int>::max();
+        this->best_value = this->NEGATIVE_INFINITY;
+        this->worst_value = this->POSITIVE_INFINITY;
     }
 }
 
