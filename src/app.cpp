@@ -5,168 +5,106 @@
 #include "engine.hpp"
 #include "utils.hpp"
 
-
 using utils::DEB;
+using utils::DBN;
 
 void App::run() {
     while (this->window->isOpen()) {
-        while (this->window->pollEvent(this->event)) {
-            switch (this->event.type) {
-                case sf::Event::Closed:
-                    this->window->close();
-                    break;
-
-                case sf::Event::KeyPressed:
-                    switch (this->event.key.code) {
-                        case sf::Keyboard::Escape:
-                            this->history_mode = !this->history_mode; break;
-                        case sf::Keyboard::A:
-                            this->show_arrows = !this->show_arrows;
-                            break;
-                        default: break;
-                    }
-
-                    if (this->history_mode) {
-                        switch(this->event.key.code) {
-                            case sf::Keyboard::Left:
-                                if (this->move_history_index == 0)
-                                    break;
-                                this->move_history_index--;
-                                this->board.unmakeMove(this->move_history[this->move_history_index]);
-                                break;
-
-                            case sf::Keyboard::Right:
-                                if (this->move_history_index == this->move_history.size())
-                                    break;
-                                this->board.makeMove(this->move_history[this->move_history_index]);
-                                this->move_history_index++;
-                                break;
-
-                            default: break;
-                        }
-                    }
-
-                default: break;
-            }
+        if (utils::is_game_over(this->board) && this->history_mode == false) {
+            this->history_mode = true;
         }
 
-        if (this->game_finished) continue;
-        if (this->history_mode) {
-            this->draw_board();
-            this->draw_position();
-
-            if (this->show_arrows) {
-                if (this->playing_color != chess::Color::NONE) {
-                    this->display_arrows(this->engine1);
-                } else {
-                    this->display_arrows(this->engine1);
-                    this->display_arrows(this->engine2);
-                }
-            }
-
-            this->window->display();
-            continue;
-        }
-
-        if (this->board.isGameOver() !=
-            std::pair<chess::GameResultReason, chess::GameResult>
-            (chess::GameResultReason::NONE, chess::GameResult::NONE)
-            && !this->game_finished
-        ) {
-            // HISTORY MODE == TRUE HERE?
-            std::cout << "GAME OVER\n";
-            this->game_finished = true;
-            continue;
-        }
-
-        if (this->playing_color != chess::Color::NONE) { // Human vs AI
-            if (this->board.sideToMove() == this->playing_color) this->move_piece();
-            else {
-                chess::Move move = this->engine1->think();
-                this->move_history_index++;
-                this->move_history.push_back(move);
-                this->board.makeMove(move);
-            }
-        } else { // AI vs AI
-            chess::Move move;
-            if (this->board.sideToMove() == chess::Color::WHITE) move = this->engine1->think();
-            else move = this->engine2->think();
-
-            this->move_history_index++;
-            this->move_history.push_back(move);
-            this->board.makeMove(move);
+        this->handle_events();
+        if (!this->history_mode) {
+            this->handle_moves(); 
         }
 
         this->draw_board();
         this->draw_position();
-        if (this->show_arrows) {
-            if (this->playing_color != chess::Color::NONE) {
-                this->display_arrows(this->engine1);
-            } else {
-                this->display_arrows(this->engine1);
-                this->display_arrows(this->engine2);
-            }
-        }
+        this->display_arrows();
         this->window->display();
     }
 }
 
-void App::display_arrows(Engine* engine) {
-    for (int i = 0; i < this->engine1->total_path.size(); i++) {
-        auto move = this->engine1->total_path[i];
-        auto color = i * 255 / this->engine1->total_path.size();
+void App::handle_moves() {
+    chess::Move move;
+    if (this->playing_color != chess::Color::NONE) {
+        if (this->board.sideToMove() == this->playing_color) {
+            this->move_piece();
+            return;
+        } else {
+            move = this->engine1->think();
+        }
+    } else {
+        if (this->board.sideToMove() == chess::Color::WHITE) {
+            move = this->engine1->think();
+        } else {
+            move = this->engine2->think();
+        }
+    }
 
-        utils::Line line(
-            sf::Vector2f(
-                utils::frti(move.from().file()) * this->cellsize + this->cellsize / 2,
-                7.5 * this->cellsize - this->cellsize * utils::frti(move.from().rank())
-            ),
-            sf::Vector2f(
-                utils::frti(move.to().file()) * this->cellsize + this->cellsize / 2,
-                7.5 * this->cellsize - this->cellsize * utils::frti(move.to().rank())
-            ),
-            sf::Color(color, color, color),
-            10.0
-        );
+    this->move_history_index++;
+    this->move_history.push_back(move);
+    this->board.makeMove(move);
+}
 
-        line.draw(*this->window);
+void App::handle_events() {
+    while (this->window->pollEvent(this->event)) {
+        switch (this->event.type) {
+            case sf::Event::Closed:
+                this->window->close();
+                break;
 
-        sf::CircleShape from;
-        from.setFillColor(sf::Color(255, 255, 255));
-        from.setOutlineColor(sf::Color(0, 0, 0));
-        from.setOutlineThickness(2);
-        from.setRadius(10);
-        from.setPosition(
-            line.start_pos.x - from.getRadius(),
-            line.start_pos.y - from.getRadius()
-        );
+            case sf::Event::KeyPressed:
+                switch (this->event.key.code) {
+                    case sf::Keyboard::A:
+                        this->show_arrows = !this->show_arrows;
+                        break;
 
-        sf::CircleShape to;
-        to.setFillColor(sf::Color(0, 0, 0));
-        to.setOutlineColor(sf::Color(255, 255, 255));
-        to.setOutlineThickness(2);
-        to.setRadius(10);
-        to.setPosition(
-            line.end_pos.x - to.getRadius(),
-            line.end_pos.y - to.getRadius()
-        );
+                    case sf::Keyboard::Left:
+                        if (this->move_history_index == 0)
+                            break;
 
-        this->window->draw(from);
-        this->window->draw(to);
+                        this->history_mode = true;
+                        this->colorscheme = Colorscheme::history;
+
+                        this->move_history_index--;
+                        this->board.unmakeMove(this->move_history[this->move_history_index]);
+
+                        break;
+
+                    case sf::Keyboard::Right:
+                        if (this->move_history_index == this->move_history.size()) {
+                            break;
+                        } else if (this->move_history_index == this->move_history.size() - 1) {
+                            this->history_mode = false;
+                            this->colorscheme = Colorscheme::def;
+                        }
+
+                        this->board.makeMove(this->move_history[this->move_history_index]);
+                        this->move_history_index++;
+                        break;
+
+                    default: break;
+            }
+
+            default: break;
+        }
     }
 }
 
 void App::move_piece() {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->currently_moving == "-1") {
+    if (this->currently_moving == "-1" && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2<int> mousepos = sf::Mouse::getPosition(*(this->window));
+
         this->currently_moving = std::to_string((int) (mousepos.x / this->cellsize)) + std::to_string(8 - (int) (mousepos.y / this->cellsize));
+        this->currently_moving_index = this->currently_moving;
 
         char files[8] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
         this->currently_moving[0] = files[this->currently_moving[0] - '0'];
 
     } else if (this->currently_moving != "-1" && !(sf::Mouse::isButtonPressed(sf::Mouse::Left))) {
-        chess::Movelist moves;
-        chess::movegen::legalmoves(moves, this->board);
+        auto moves = utils::legal_moves(this->board);
 
         sf::Vector2<int> mousepos = sf::Mouse::getPosition(*(this->window));
         std::string moving_to = std::to_string((int) (mousepos.x / this->cellsize)) + std::to_string(8 - (int) (mousepos.y / this->cellsize));
@@ -174,13 +112,49 @@ void App::move_piece() {
         moving_to[0] = files[moving_to[0] - '0'];
 
         chess::Move move = utils::is_in_moves(moves, this->currently_moving, moving_to);
-        if (move == chess::Move::NULL_MOVE) return;
+        this->currently_moving_index = "-1";
+        this->currently_moving = "-1";
+        if (move == chess::Move::NULL_MOVE) {
+            return;
+        }
 
         this->move_history_index++;
         this->move_history.push_back(move);
         this->board.makeMove(move);
+    }
+}
 
-        this->currently_moving = "-1";
+void App::draw_board() {
+    for (int i = 0; i <= 8; i++) {
+        for (int j = 0; j <= 8; j++) {
+            sf::RectangleShape r(sf::Vector2f(this->cellsize, this->cellsize));
+            r.setPosition(i * this->cellsize, j * this->cellsize);
+
+            switch (this->colorscheme) {
+                case def:
+                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color(120, 141, 89));
+                    else r.setFillColor(sf::Color(227, 227, 204));
+                    break;
+                case sepia:
+                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color(0, 0, 0));
+                    else r.setFillColor(sf::Color(255, 255, 255));
+                    break;
+                case purp:
+                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color(240, 241, 240));
+                    else r.setFillColor(sf::Color(129, 120, 181));
+                    break;
+                case history:
+                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color(80, 101, 59));
+                    else r.setFillColor(sf::Color(187, 187, 164));
+                    break;
+            }
+
+            this->boardshape.push_back(r);
+        }
+    }
+
+    for (sf::RectangleShape r : this->boardshape) {
+        this->window->draw(r);
     }
 }
 
@@ -235,13 +209,63 @@ void App::draw_position() {
     }
 }
 
-void App::draw_board() {
-    for (sf::RectangleShape r : this->boardshape) {
-        this->window->draw(r);
+void App::display_arrows() {
+    if (!this->show_arrows) return;
+    
+    for (auto& e : {this->engine1, this->engine2}) {
+        if (e == nullptr)
+            return;
+
+        for (int i = 0; i < this->engine1->total_path.size(); i++) {
+            auto move = this->engine1->total_path[i];
+            auto color = i * 255 / this->engine1->total_path.size();
+
+            utils::Line line(
+                sf::Vector2f(
+                    utils::frti(move.from().file()) * this->cellsize + this->cellsize / 2,
+                    7.5 * this->cellsize - this->cellsize * utils::frti(move.from().rank())
+                ),
+                sf::Vector2f(
+                    utils::frti(move.to().file()) * this->cellsize + this->cellsize / 2,
+                    7.5 * this->cellsize - this->cellsize * utils::frti(move.to().rank())
+                ),
+                sf::Color(color, color, color),
+                10.0
+            );
+
+            sf::CircleShape from;
+            from.setFillColor(sf::Color(255, 255, 255));
+            from.setOutlineColor(sf::Color(0, 0, 0));
+            from.setOutlineThickness(2);
+            from.setRadius(10);
+            from.setPosition(
+                line.start_pos.x - from.getRadius(),
+                line.start_pos.y - from.getRadius()
+            );
+
+            sf::CircleShape to;
+            to.setFillColor(sf::Color(0, 0, 0));
+            to.setOutlineColor(sf::Color(255, 255, 255));
+            to.setOutlineThickness(2);
+            to.setRadius(10);
+            to.setPosition(
+                line.end_pos.x - to.getRadius(),
+                line.end_pos.y - to.getRadius()
+            );
+
+            line.draw(*this->window);
+            this->window->draw(from);
+            this->window->draw(to);
+        }
     }
 }
 
-App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color = chess::Color::WHITE, bool scorewindow = false) {
+App::App(
+    Engine* engine1,
+    Engine* engine2 = nullptr,
+    chess::Color playing_color = chess::Color::WHITE,
+    bool scorewindow = false
+) {
     this->resolution = sf::VideoMode(800, 800);
     this->cellsize = this->resolution.width / 8.0;
     this->window = new sf::RenderWindow(this->resolution, "Chess - Game", sf::Style::Titlebar | sf::Style::Close);
@@ -249,9 +273,6 @@ App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color 
         this->scorewindow = new sf::RenderWindow(sf::VideoMode(200, 200), "Chess - Score", sf::Style::Titlebar | sf::Style::Close);
 
     this->board = chess::Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->colorscheme = def;
-    this->currently_moving = "-1";
-    this->game_finished = false;
 
     this->engine1 = engine1;
     this->engine1->setBoard(&this->board);
@@ -286,26 +307,6 @@ App::App(Engine* engine1, Engine* engine2 = nullptr, chess::Color playing_color 
             this->cellsize / this->piece_textures[i].getSize().x,
             this->cellsize / this->piece_textures[i].getSize().y
         );
-    }
-
-    for (int i = 0; i <= 8; i++) {
-        for (int j = 0; j <= 8; j++) {
-            sf::RectangleShape r(sf::Vector2f(this->cellsize, this->cellsize));
-            r.setPosition(i * this->cellsize, j * this->cellsize);
-
-            switch (this->colorscheme) {
-                case def:
-                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color(120, 141, 89));
-                    else r.setFillColor(sf::Color(227, 227, 204));
-                    break;
-                case sepia:
-                    if ((i + j) % 2 == 0) r.setFillColor(sf::Color::Black);
-                    else r.setFillColor(sf::Color::White);
-                    break;
-            }
-
-            this->boardshape.push_back(r);
-        }
     }
 }
 

@@ -80,6 +80,14 @@ inline chess::Move is_in_moves(chess::Movelist moves, std::string currently_movi
     return chess::Move::NULL_MOVE;
 }
 
+inline bool is_game_over(chess::Board board) {
+    if (board.isGameOver().second != chess::GameResult::NONE) {
+        return true;
+    }
+
+    return false;
+}
+
 inline int frti(chess::File file) {
     return std::stoi(std::to_string(file));
 }

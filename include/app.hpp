@@ -8,6 +8,8 @@
 enum Colorscheme {
     def,
     sepia,
+    purp,
+    history,
 };
 
 enum Piece {
@@ -27,8 +29,6 @@ enum Piece {
 };
 
 
-int getEnumIndex(Piece value);
-
 class App {
 private:
     sf::RenderWindow* window;
@@ -40,13 +40,15 @@ private:
 
     Engine* engine1;
     Engine* engine2;
+    std::string currently_moving = "-1";
+    std::string currently_moving_index = "-1";
 
-    bool game_finished;
     chess::Board board;
     chess::Color playing_color;
     chess::Color engine_color;
 
     std::vector<chess::Move> move_history;
+    std::vector<std::vector<chess::Move>> arrow_history;
     int move_history_index = 0;
     bool history_mode = false;
     bool show_arrows = false;
@@ -54,9 +56,8 @@ private:
     std::vector<sf::RectangleShape> boardshape;
     std::vector<sf::Texture> piece_textures;
     std::vector<sf::Sprite> piece_sprites;
-    Colorscheme colorscheme;
+    Colorscheme colorscheme = Colorscheme::def;
 
-    std::string currently_moving;
 
 public:
     App(Engine* engine1, Engine* engine2, chess::Color playing_color, bool scorewindow);
@@ -66,5 +67,7 @@ public:
     void move_piece();
     void draw_position();
     void draw_board();
-    void display_arrows(Engine* engine);
+    void display_arrows();
+    void handle_events();
+    void handle_moves();
 };
