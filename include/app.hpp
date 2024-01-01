@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <string>
 #include "chess.hpp"
 #include "engine.hpp"
 
@@ -38,14 +37,15 @@ private:
     sf::VideoMode resolution;
     float cellsize;
 
-    Engine* engine1;
-    Engine* engine2;
-    std::string currently_moving = "-1";
-    std::string currently_moving_index = "-1";
+    Engine* enginew;
+    Engine* engineb;
+    chess::Square moving_from;
+    bool moving;
 
     chess::Board board;
     chess::Color playing_color;
     chess::Color engine_color;
+    bool player_playing;
 
     std::vector<chess::Move> move_history;
     std::vector<std::vector<chess::Move>> arrow_history;
@@ -58,9 +58,14 @@ private:
     std::vector<sf::Sprite> piece_sprites;
     Colorscheme colorscheme = Colorscheme::def;
 
-
 public:
-    App(Engine* engine1, Engine* engine2, chess::Color playing_color, bool scorewindow);
+    App(
+        Engine* engine1,
+        Engine* engine2,
+        chess::Color playing_color,
+        bool player_playing,
+        bool scorewindow
+    );
     ~App();
 
     void run();

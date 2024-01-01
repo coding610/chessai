@@ -10,9 +10,9 @@ SRC=src/*.cpp
 SRC_DIR=src
 INC_DIR=include
 OBJ_PATH=build
-CPP_VERSION=17
+CPP_VERSION=20
 
-CFLAGS := -Wall -g -I$(INC_DIR) -std=c++$(CPP_VERSION)
+CFLAGS := -Wall -g -I$(INC_DIR) -std=c++$(CPP_VERSION) -Wno-logical-op-parentheses -Wno-bitwise-op-parentheses
 LDFLAGS := -lsfml-network -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 #_____________________COMPILE______________________

@@ -44,7 +44,7 @@ public:
         float beta,
         bool maximizing_player
     );
-    std::vector<chess::Move> order_moves(chess::Board& b, chess::Movelist moves);
+    // std::vector<chess::Move> order_moves(chess::Board& b, chess::moves);
 
     int get_piece_value(chess::Board b, int x, int y);
     float evaluate_fen(std::string fen);

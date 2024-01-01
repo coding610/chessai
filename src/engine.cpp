@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <iostream>
 #include "chess.hpp"
 #include "engine.hpp"
 #include "utils.hpp"
@@ -9,20 +10,22 @@ using utils::DEB;
 using utils::DBN;
 
 chess::Move Engine::think() {
-    this->positions_searched = 0;
+    // this->positions_searched = 0;
+    //
+    // auto time_begin = std::chrono::steady_clock::now();
+    // auto best_move = this->search_begin();
+    // auto time_end = std::chrono::steady_clock::now();
+    //
+    // std::cout << "Positions searched: " << this->positions_searched << "\n";
+    // std::cout << "Duration: "
+    //     << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
+    //     << "ms\n";
 
-    auto time_begin = std::chrono::steady_clock::now();
-    auto best_move = this->search_begin();
-    auto time_end = std::chrono::steady_clock::now();
-
-    std::cout << "Positions searched: " << this->positions_searched << "\n";
-    std::cout << "Duration: "
-        << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
-        << "ms\n";
-
-    return best_move;
+    auto legal_moves = this->board->generate_legal_moves();
+    return legal_moves[0];
 }
 
+/*
 chess::Move Engine::search_begin() {
     chess::Move best_move;
     float best_evaluation = utils::is_clrw(this->color) ? this->NEGATIVE_INFINITY : this->POSITIVE_INFINITY;
@@ -130,6 +133,7 @@ float Engine::evaluate_fen(std::string fen) {
 
     return 0.0;
 }
+*/
 
 Engine::Engine(chess::Color color, bool ab_pruning, int MAX_DEPTH) {
     this->MAX_DEPTH = MAX_DEPTH;
