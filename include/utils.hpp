@@ -31,6 +31,7 @@ inline void DBN(std::string str) { std::cout << str; }
 inline void DBN(int i) { std::cout << i; }
 inline void DBN(chess::Move m) { std::cout << m; }
 
+
 template<typename T>
 inline void copy_and_erease_vector(std::vector<T>* ereasev, std::vector<T>& copyv) {
     *ereasev = {};

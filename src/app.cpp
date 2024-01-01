@@ -11,6 +11,7 @@ using utils::DBN;
 void App::run() {
     while (this->window->isOpen()) {
         if (utils::is_game_over(this->board) && this->history_mode == false) {
+            DEB("Game Over!");
             this->history_mode = true;
         }
 

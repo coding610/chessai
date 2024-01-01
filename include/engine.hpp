@@ -2,6 +2,7 @@
 
 #include <string>
 #include <limits>
+#include <vector>
 #include "chess.hpp"
 
 
@@ -35,6 +36,7 @@ public:
     void setBoard(chess::Board* b);
 
     chess::Move think();
+    chess::Move search_begin();
     float search(
         chess::Board& board,
         int depth,
@@ -42,6 +44,8 @@ public:
         float beta,
         bool maximizing_player
     );
-    chess::Movelist order_moves(chess::Movelist moves);
+    std::vector<chess::Move> order_moves(chess::Board& b, chess::Movelist moves);
+
+    int get_piece_value(chess::Board b, int x, int y);
     float evaluate_fen(std::string fen);
 };

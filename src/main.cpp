@@ -4,8 +4,8 @@
 
 
 int main() {
-    Engine* enginew = new Engine(chess::Color::WHITE, true, 2 * 3);
-    Engine* engineb = new Engine(chess::Color::BLACK, true, 2 * 3);
+    Engine* enginew = new Engine(chess::Color::WHITE, true, 4);
+    Engine* engineb = new Engine(chess::Color::BLACK, true, 4);
 
     App app(engineb, nullptr, chess::Color::WHITE, false);
     app.run();

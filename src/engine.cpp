@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 #include <string>
 #include "chess.hpp"
 #include "engine.hpp"
@@ -8,21 +9,33 @@ using utils::DEB;
 using utils::DBN;
 
 chess::Move Engine::think() {
+    this->positions_searched = 0;
+
+    auto time_begin = std::chrono::steady_clock::now();
+    auto best_move = this->search_begin();
+    auto time_end = std::chrono::steady_clock::now();
+
+    std::cout << "Positions searched: " << this->positions_searched << "\n";
+    std::cout << "Duration: "
+        << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
+        << "ms\n";
+
+    return best_move;
+}
+
+chess::Move Engine::search_begin() {
     chess::Move best_move;
     float best_evaluation = utils::is_clrw(this->color) ? this->NEGATIVE_INFINITY : this->POSITIVE_INFINITY;
 
-    auto legal_moves = utils::legal_moves(*this->board);
-    for (auto& move : legal_moves) {
+    for (auto& move : utils::legal_moves(*this->board)) {
         this->board->makeMove(move);
-
         float evaluation = this->search(
             *this->board,
-            this->MAX_DEPTH,
+            this->MAX_DEPTH - 1,
             this->NEGATIVE_INFINITY,
             this->POSITIVE_INFINITY,
-            utils::is_clrw(this->color)
+            utils::is_clrw(this->board->sideToMove())
         );
-
         this->board->unmakeMove(move);
 
         if (this->color == chess::Color::WHITE) {
@@ -38,13 +51,61 @@ chess::Move Engine::think() {
 }
 
 float Engine::search(
-    chess::Board& board,
+    chess::Board& b,
     int depth,
     float alpha,
     float beta,
-    bool maximizing_player
+    bool maximizing_player // true if w, false if b
 ) {
-    return 0.0;
+    if (maximizing_player) {
+        BEST_POSSIBLE_VALUE = this->POSITIVE_INFINITY;
+        WORST_POSSIBLE_VALUE = this->NEGATIVE_INFINITY;
+    } else {
+        BEST_POSSIBLE_VALUE = this->NEGATIVE_INFINITY;
+        WORST_POSSIBLE_VALUE = this->POSITIVE_INFINITY;
+    }
+
+    ////// HANDLE EDGE CASES //////
+    if (depth == 0) {
+        return this->evaluate_fen(b.getFen());
+    } else if (this->board->isGameOver().second == chess::GameResult::WIN) {
+        return BEST_POSSIBLE_VALUE;
+    } else if (this->board->isGameOver().second == chess::GameResult::LOSE) {
+        return WORST_POSSIBLE_VALUE;
+    } else if (this->board->isGameOver().second == chess::GameResult::DRAW) {
+        return 0.0;
+    }
+
+    ////// RECURSION //////
+    float best_evaluation = WORST_POSSIBLE_VALUE;
+    for (auto& move : utils::legal_moves(b)) {
+        b.makeMove(move);
+        float evaluation = this->search(
+            b,
+            depth - 1,
+            alpha,
+            beta,
+            !maximizing_player
+        );
+        b.unmakeMove(move);
+
+        ////// EVALUATION //////
+        if (maximizing_player) {
+            best_evaluation = std::max(evaluation, best_evaluation);
+            alpha = std::max(alpha, evaluation);
+        } else {
+            best_evaluation = std::min(evaluation, best_evaluation);
+            alpha = std::min(alpha, evaluation);
+        }
+
+        if (this->ab_pruning) {
+            if (beta <= alpha) {
+                break;
+            }
+        }
+    }
+
+    return best_evaluation;
 }
 
 float Engine::evaluate_fen(std::string fen) {
@@ -75,13 +136,6 @@ Engine::Engine(chess::Color color, bool ab_pruning, int MAX_DEPTH) {
     this->ab_pruning = ab_pruning;
 
     this->color = color;
-    if (color == chess::Color::WHITE) {
-        this->BEST_POSSIBLE_VALUE = this->POSITIVE_INFINITY;
-        this->WORST_POSSIBLE_VALUE = this->NEGATIVE_INFINITY;
-    } else {
-        this->BEST_POSSIBLE_VALUE = this->NEGATIVE_INFINITY;
-        this->WORST_POSSIBLE_VALUE = this->POSITIVE_INFINITY;
-    }
 }
 
 void Engine::setBoard(chess::Board* b) {
