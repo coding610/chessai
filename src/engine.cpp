@@ -8,7 +8,6 @@ using utils::DEB;
 using utils::DBN;
 
 chess::Move Engine::think() {
-
     chess::Move best_move;
     float best_evaluation = utils::is_clrw(this->color) ? this->NEGATIVE_INFINITY : this->POSITIVE_INFINITY;
 

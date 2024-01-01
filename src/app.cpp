@@ -14,11 +14,11 @@ void App::run() {
             this->history_mode = true;
         }
 
-        this->handle_events();
         if (!this->history_mode) {
             this->handle_moves(); 
         }
 
+        this->handle_events();
         this->draw_board();
         this->draw_position();
         this->display_arrows();
