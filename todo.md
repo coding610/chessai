@@ -1,3 +1,4 @@
 # TODO
-* Migrate to a better chess engine
-    * Migrate to this: https://github.com/pjpuzzler/cpp-chess
+* Order moves by potential importance
+* Make a Engine vs Engine visualizer Gamemode
+* Make a timeconstraint for the bobt

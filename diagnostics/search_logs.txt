@@ -1,42 +1,18 @@
 
 --- Engine Evaluation Finished -- Current Move: 1 ---
 --- Position searched: 13160 ---
---- Duration: 103ms ---
+--- Duration: 108ms ---
 --- Final Move Chooosen: g8h6 ---
 
 
 --- Engine Evaluation Finished -- Current Move: 2 ---
---- Position searched: 13632 ---
---- Duration: 113ms ---
+--- Position searched: 16820 ---
+--- Duration: 133ms ---
 --- Final Move Chooosen: h8g8 ---
 
 
 --- Engine Evaluation Finished -- Current Move: 3 ---
---- Position searched: 15980 ---
---- Duration: 150ms ---
---- Final Move Chooosen: g8h8 ---
-
-
---- Engine Evaluation Finished -- Current Move: 4 ---
---- Position searched: 17615 ---
---- Duration: 161ms ---
---- Final Move Chooosen: b8c6 ---
-
-
---- Engine Evaluation Finished -- Current Move: 5 ---
---- Position searched: 19890 ---
---- Duration: 171ms ---
---- Final Move Chooosen: c6b8 ---
-
-
---- Engine Evaluation Finished -- Current Move: 6 ---
---- Position searched: 16713 ---
---- Duration: 147ms ---
---- Final Move Chooosen: h8g8 ---
-
-
---- Engine Evaluation Finished -- Current Move: 7 ---
---- Position searched: 14415 ---
---- Duration: 126ms ---
---- Final Move Chooosen: g8h8 ---
+--- Position searched: 14678 ---
+--- Duration: 116ms ---
+--- Final Move Chooosen: g7h6 ---
 

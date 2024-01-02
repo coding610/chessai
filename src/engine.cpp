@@ -18,11 +18,6 @@ chess::Move Engine::think() {
     auto best_move = this->search_begin();
     auto time_end = std::chrono::steady_clock::now();
 
-    std::cout << "Positions searched: " << this->positions_searched << "\n";
-    std::cout << "Duration: "
-        << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
-        << "ms\n";
-
     std::ofstream diagnostics;
     diagnostics.open("diagnostics/search_logs.txt", std::ios::app);
     diagnostics << "\n--- Engine Evaluation Finished -- Current Move: " << this->engine_move_index << " ---\n"
@@ -40,7 +35,7 @@ chess::Move Engine::search_begin() {
     chess::Move best_move;
     float best_evaluation = this->color == chess::Color::WHITE ? this->NEGATIVE_INFINITY : this->POSITIVE_INFINITY;
 
-    for (auto& move : utils::legal_moves(*this->board)) {
+    for (auto& move : this->ordered_moves(*this->board)) {
         this->board->makeMove(move);
         float evaluation = this->search(
             *this->board,
@@ -94,7 +89,7 @@ float Engine::search(
     ////// RECURSION //////
     float best_evaluation = WORST_POSSIBLE_VALUE;
     chess::Move best_move;
-    for (auto& move : utils::legal_moves(b)) {
+    for (auto& move : this->ordered_moves(b)) {
         b.makeMove(move);
         float evaluation = this->search(
             b,
@@ -126,6 +121,12 @@ float Engine::search(
     }
 
     return best_evaluation;
+}
+
+std::vector<chess::Move> Engine::ordered_moves(chess::Board& b) {
+    auto legal_moves = utils::legal_moves(b);
+
+    return legal_moves;
 }
 
 float Engine::evaluate_fen(std::string fen) {
