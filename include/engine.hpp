@@ -21,6 +21,7 @@ private:
     int MAX_DEPTH;
 
     int positions_searched = 0;
+    int engine_move_index = 0;
     bool ab_pruning;
     int ab = 0;
 

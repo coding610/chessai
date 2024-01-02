@@ -2,6 +2,7 @@
 #include <chrono>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "chess.hpp"
 #include "engine.hpp"
 #include "utils.hpp"
@@ -10,6 +11,7 @@ using utils::DEB;
 using utils::DBN;
 
 chess::Move Engine::think() {
+    this->engine_move_index++;
     this->positions_searched = 0;
 
     auto time_begin = std::chrono::steady_clock::now();
@@ -20,6 +22,16 @@ chess::Move Engine::think() {
     std::cout << "Duration: "
         << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
         << "ms\n";
+
+    std::ofstream diagnostics;
+    diagnostics.open("diagnostics/search_logs.txt", std::ios::app);
+    diagnostics << "\n--- Engine Evaluation Finished -- Current Move: " << this->engine_move_index << " ---\n"
+                << "--- Position searched: " << this->positions_searched << " ---\n"
+                << "--- Duration: "
+                << std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_begin).count()
+                << "ms ---\n"
+                << "--- Final Move Chooosen: " << best_move << " ---\n\n";
+    diagnostics.close();
 
     return best_move;
 }
@@ -46,6 +58,8 @@ chess::Move Engine::search_begin() {
         } if (evaluation == best_evaluation) {
             best_move = move;
         }
+
+        utils::write_search_log(this->color, this->color, 0, best_move, best_evaluation, this->engine_move_index);
     }
 
     return best_move;
@@ -79,6 +93,7 @@ float Engine::search(
 
     ////// RECURSION //////
     float best_evaluation = WORST_POSSIBLE_VALUE;
+    chess::Move best_move;
     for (auto& move : utils::legal_moves(b)) {
         b.makeMove(move);
         float evaluation = this->search(
@@ -97,6 +112,8 @@ float Engine::search(
         } else {
             best_evaluation = std::min(evaluation, best_evaluation);
             alpha = std::min(alpha, evaluation);
+        } if (evaluation == best_evaluation) {
+            best_move = move;
         }
 
         if (this->ab_pruning) {
@@ -104,6 +121,8 @@ float Engine::search(
                 break;
             }
         }
+
+        // utils::write_search_log(this->color, maximizing_player, this->MAX_DEPTH - depth, best_move, best_evaluation);
     }
 
     return best_evaluation;

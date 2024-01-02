@@ -270,6 +270,8 @@ App::App(
     bool player_playing = true,
     bool scorewindow = false
 ) {
+    utils::clear_search_log();
+    
     this->resolution = sf::VideoMode(800, 800);
     this->cellsize = this->resolution.width / 8.0;
     this->window = new sf::RenderWindow(this->resolution, "Chess - Game", sf::Style::Titlebar | sf::Style::Close);
