@@ -5,13 +5,11 @@
 #include "chess.hpp"
 #include "app.hpp"
 
-
 namespace utils {
 
 inline void DEB(std::string str) { std::cout << str << "\n"; }
 inline void DEB(int i) { std::cout << i << "\n"; }
 inline void DEB(chess::Move m) { std::cout << m << "\n"; }
-
 template<typename T>
 inline void DEB(std::vector<std::vector<T>> vec) {
     for (auto& a : vec) {
@@ -19,18 +17,25 @@ inline void DEB(std::vector<std::vector<T>> vec) {
         for (auto& b : a) DEB(b);
     }
 }
-
 template<typename T>
 inline void DEB(std::vector<T> vec) {
     for (auto& a : vec) {
         DEB(a);
     }
 }
-
 inline void DBN(std::string str) { std::cout << str; }
 inline void DBN(int i) { std::cout << i; }
 inline void DBN(chess::Move m) { std::cout << m; }
 
+inline bool is_game_over(chess::Board& b) {
+    return b.isGameOver().second != chess::GameResult::NONE;
+}
+
+inline std::string square_to_san(chess::Square square) {
+    char fileChar = 'a' + static_cast<char>(square.file());
+    int rankNumber = static_cast<int>(square.rank()) + 1;
+    return std::string{fileChar} + std::to_string(rankNumber);
+}
 
 template<typename T>
 inline void copy_and_erease_vector(std::vector<T>* ereasev, std::vector<T>& copyv) {
@@ -46,6 +51,29 @@ inline int get_piece_index(Piece value) {
             return i;
     }
     return -1; // If the value is not found
+}
+
+inline std::vector<chess::Move> legal_moves(chess::Board& b) {
+    chess::Movelist legal_moves;
+    chess::movegen::legalmoves(legal_moves, b);
+
+    std::vector<chess::Move> legal_moves_v;
+    for (auto& m : legal_moves) {
+        legal_moves_v.push_back(m);
+    }
+
+    return legal_moves_v;
+}
+
+inline bool is_legal(chess::Move& move, chess::Board& b) {
+    auto legal_moves = utils::legal_moves(b);
+    for (auto& m : legal_moves) {
+        if (move == m) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 class Line {

@@ -1,17 +1,13 @@
-#include <iostream>
-// #include "app.hpp"
-// #include "chess.hpp"
-// #include "engine.hpp"
+#include "engine.hpp"
+#include "app.hpp"
 
 
 int main() {
-    std::cout << "h" << std::endl;
-    // Engine* enginew = new Engine(chess::WHITE, true, 4);
-    // std::cout << "h" << std::endl;
-    // Engine* engineb = new Engine(chess::BLACK, true, 4);
-    //
-    // std::cout << "h" << std::endl;
-    // App app(enginew, engineb, chess::WHITE, true, false);
-    // std::cout << "h" << std::endl;
-    // app.run();
+    Engine* enginew = new Engine(chess::Color::WHITE, true, 3);
+    Engine* engineb = new Engine(chess::Color::BLACK, true, 3);
+
+    App app = App(engineb, nullptr, chess::Color::WHITE, true, false);
+    app.run();
+
+    return 0;
 }

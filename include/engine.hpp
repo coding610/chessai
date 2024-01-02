@@ -32,7 +32,7 @@ public:
     std::vector<std::vector<chess::Move>> best_path;
     std::vector<chess::Move> total_path;
 
-    Engine(chess::Color color, bool ab_pruning, int depth);
+    Engine(chess::Color color, bool ab_pruning, int maxdepth);
     void setBoard(chess::Board* b);
 
     chess::Move think();

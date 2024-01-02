@@ -37,8 +37,8 @@ private:
     sf::VideoMode resolution;
     float cellsize;
 
-    Engine* enginew;
-    Engine* engineb;
+    Engine* main_engine;
+    Engine* secondary_engine;
     chess::Square moving_from;
     bool moving;
 

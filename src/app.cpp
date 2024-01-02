@@ -10,7 +10,7 @@ using utils::DBN;
 
 void App::run() {
     while (this->window->isOpen()) {
-        if (this->board.is_game_over() && this->history_mode == false) {
+        if (utils::is_game_over(this->board) && this->history_mode == false) {
             DEB("Game Over!");
             this->history_mode = true;
         }
@@ -22,35 +22,31 @@ void App::run() {
         this->handle_events();
         this->draw_board();
         this->draw_position();
-        // this->display_arrows();
+        this->display_arrows();
         this->window->display();
     }
 }
 
 void App::handle_moves() {
-    chess::Move move = chess::Move::from_uci("a1a1");
+    chess::Move move;
     if (this->player_playing) {
-        if (this->board.turn == this->playing_color) {
+        if (this->board.sideToMove() == this->playing_color) {
             this->move_piece();
             return;
         } else {
-            if (this->engine_color == chess::WHITE) {
-                move = this->enginew->think();
-            } else {
-                move = this->engineb->think();
-            }
+            move = this->main_engine->think();
         }
     } else {
-        if (this->board.turn == chess::WHITE) {
-            move = this->enginew->think();
+        if (this->board.sideToMove() == chess::Color::WHITE) {
+            move = this->main_engine->think();
         } else {
-            move = this->engineb->think();
+            move = this->secondary_engine->think();
         }
     }
 
     this->move_history_index++;
     this->move_history.push_back(move);
-    this->board.push(move);
+    this->board.makeMove(move);
 }
 
 void App::handle_events() {
@@ -74,19 +70,21 @@ void App::handle_events() {
                         this->move_history_index--;
                         this->colorscheme = Colorscheme::history;
 
-                        // this->board.pop(this->move_history[this->move_history_index]);
-                        this->board.pop();
+                        this->board.unmakeMove(this->move_history[this->move_history_index]);
                         break;
 
                     case sf::Keyboard::Right:
                         if (this->move_history_index == this->move_history.size()) {
                             break;
-                        } else if (this->move_history_index == this->move_history.size() - 1) {
+                        } else if (
+                            this->move_history_index == this->move_history.size() - 1
+                            && !utils::is_game_over(this->board)
+                        ) {
                             this->history_mode = false;
                             this->colorscheme = Colorscheme::def;
                         }
 
-                        this->board.push(this->move_history[this->move_history_index]);
+                        this->board.makeMove(this->move_history[this->move_history_index]);
                         this->move_history_index++;
                         break;
 
@@ -104,25 +102,27 @@ void App::move_piece() {
 
         this->moving = true;
         this->moving_from = chess::Square(
-            8 * std::floor(mousepos.x / this->cellsize) +
-            std::floor(mousepos.y / this->cellsize)
+            std::floor(mousepos.x / this->cellsize) +
+            56 - (8 * std::floor(mousepos.y / this->cellsize))
         );
 
     } else if (this->moving && !(sf::Mouse::isButtonPressed(sf::Mouse::Left))) {
+        this->moving = false;
         sf::Vector2<int> mousepos = sf::Mouse::getPosition(*(this->window));
+
         auto moving_to = chess::Square(
-            8 * std::floor(mousepos.x / this->cellsize) +
-            std::floor(mousepos.y / this->cellsize)
+            std::floor(mousepos.x / this->cellsize) +
+            56 - (8 * std::floor(mousepos.y / this->cellsize))
         );
 
-        chess::Move move = chess::Move(moving_from, moving_to);
-        if (!this->board.is_legal(move)) {
+        chess::Move move = chess::Move::make(this->moving_from, moving_to);
+        if (!utils::is_legal(move, this->board)) {
             return;
         }
 
         this->move_history_index++;
         this->move_history.push_back(move);
-        this->board.push(move);
+        this->board.makeMove(move);
     }
 }
 
@@ -161,7 +161,7 @@ void App::draw_board() {
 }
 
 void App::draw_position() {
-    std::string fen = this->board.fen();
+    std::string fen = this->board.getFen();
 
     int line = 0;
     int column = 0;
@@ -211,61 +211,62 @@ void App::draw_position() {
     }
 }
 
-// void App::display_arrows() {
-//     if (!this->show_arrows) return;
-//     
-//     for (auto& e : {this->enginew, this->engineb}) {
-//         if (e == nullptr)
-//             return;
-//
-//         for (int i = 0; i < this->engine1->total_path.size(); i++) {
-//             auto move = this->engine1->total_path[i];
-//             auto color = i * 255 / this->engine1->total_path.size();
-//
-//             utils::Line line(
-//                 sf::Vector2f(
-//                     utils::frti(move.from().file()) * this->cellsize + this->cellsize / 2,
-//                     7.5 * this->cellsize - this->cellsize * utils::frti(move.from().rank())
-//                 ),
-//                 sf::Vector2f(
-//                     utils::frti(move.to().file()) * this->cellsize + this->cellsize / 2,
-//                     7.5 * this->cellsize - this->cellsize * utils::frti(move.to().rank())
-//                 ),
-//                 sf::Color(color, color, color),
-//                 10.0
-//             );
-//
-//             sf::CircleShape from;
-//             from.setFillColor(sf::Color(255, 255, 255));
-//             from.setOutlineColor(sf::Color(0, 0, 0));
-//             from.setOutlineThickness(2);
-//             from.setRadius(10);
-//             from.setPosition(
-//                 line.start_pos.x - from.getRadius(),
-//                 line.start_pos.y - from.getRadius()
-//             );
-//
-//             sf::CircleShape to;
-//             to.setFillColor(sf::Color(0, 0, 0));
-//             to.setOutlineColor(sf::Color(255, 255, 255));
-//             to.setOutlineThickness(2);
-//             to.setRadius(10);
-//             to.setPosition(
-//                 line.end_pos.x - to.getRadius(),
-//                 line.end_pos.y - to.getRadius()
-//             );
-//
-//             line.draw(*this->window);
-//             this->window->draw(from);
-//             this->window->draw(to);
-//         }
-//     }
-// }
+void App::display_arrows() {
+    if (!this->show_arrows) return;
+
+    for (auto& e : {this->main_engine, this->secondary_engine}) {
+        if (this->player_playing) {
+            return;
+        }
+
+        for (int i = 0; i < e->total_path.size(); i++) {
+            auto move = e->total_path[i];
+            auto color = i * 255 / e->total_path.size();
+
+            utils::Line line(
+                sf::Vector2f(
+                    move.from().file() * this->cellsize + this->cellsize / 2,
+                    7.5 * this->cellsize - this->cellsize * move.from().rank()
+                ),
+                sf::Vector2f(
+                    move.to().file() * this->cellsize + this->cellsize / 2,
+                    7.5 * this->cellsize - this->cellsize * move.to().rank()
+                ),
+                sf::Color(color, color, color),
+                10.0
+            );
+
+            sf::CircleShape from;
+            from.setFillColor(sf::Color(255, 255, 255));
+            from.setOutlineColor(sf::Color(0, 0, 0));
+            from.setOutlineThickness(2);
+            from.setRadius(10);
+            from.setPosition(
+                line.start_pos.x - from.getRadius(),
+                line.start_pos.y - from.getRadius()
+            );
+
+            sf::CircleShape to;
+            to.setFillColor(sf::Color(0, 0, 0));
+            to.setOutlineColor(sf::Color(255, 255, 255));
+            to.setOutlineThickness(2);
+            to.setRadius(10);
+            to.setPosition(
+                line.end_pos.x - to.getRadius(),
+                line.end_pos.y - to.getRadius()
+            );
+
+            line.draw(*this->window);
+            this->window->draw(from);
+            this->window->draw(to);
+        }
+    }
+}
 
 App::App(
-    Engine* engine1,
-    Engine* engine2,
-    chess::Color playing_color,
+    Engine* enginew,
+    Engine* engineb,
+    chess::Color playing_color = chess::Color::WHITE,
     bool player_playing = true,
     bool scorewindow = false
 ) {
@@ -277,16 +278,23 @@ App::App(
 
     this->board = chess::Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-    this->enginew = engine1;
-    this->enginew->setBoard(&this->board);
+    this->playing_color = playing_color;
+    this->engine_color = !playing_color;
+    this->player_playing = player_playing;
 
-    if (player_playing) {
-        this->playing_color = playing_color;
-        this->engine_color = !playing_color;
-        std::cout << "Engine Color: " << this->engine_color << "\n";
+    if (this->player_playing) {
+        if (playing_color == chess::Color::WHITE) {
+            this->main_engine = enginew;
+            this->main_engine->setBoard(&this->board);
+        } else {
+            this->main_engine = engineb;
+            this->main_engine->setBoard(&this->board);
+        }
     } else {
-        this->engineb = engine2;
-        this->engineb->setBoard(&this->board);
+        this->main_engine = enginew;
+        this->main_engine->setBoard(&this->board);
+        this->secondary_engine = engineb;
+        this->secondary_engine->setBoard(&this->board);
     }
 
     for (int i = 0; i <= 18; i++)
@@ -315,9 +323,9 @@ App::App(
 
 App::~App() {
     delete this->window;
-    delete this->enginew;
+    delete this->main_engine;
 
-    if (this->engineb != nullptr) {
-        delete this->engineb;
+    if (!this->player_playing) {
+        delete this->secondary_engine;
     }
 }
