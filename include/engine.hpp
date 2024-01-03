@@ -45,6 +45,6 @@ public:
         float beta
     );
 
-    std::vector<chess::Move> order_moves(std::vector<chess::Move> moves);
+    void order_moves(std::vector<chess::Move>& moves);
     int get_piece_value(chess::Piece p);
 };

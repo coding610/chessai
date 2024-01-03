@@ -278,7 +278,7 @@ App::App(
     if (scorewindow)
         this->scorewindow = new sf::RenderWindow(sf::VideoMode(200, 200), "Chess - Score", sf::Style::Titlebar | sf::Style::Close);
 
-    this->board = chess::Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    this->board = chess::Board("rnb1k2r/1pp1qpp1/4p2p/8/p3Q1P1/bP6/P1PP1P1P/BK1R1BNR w kq - 0 12");
 
     this->playing_color = playing_color;
     this->engine_color = !playing_color;

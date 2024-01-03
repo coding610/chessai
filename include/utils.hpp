@@ -9,7 +9,7 @@
 namespace utils {
 
 inline bool compare_score(chess::Move m1, chess::Move m2) {
-    return (m1.score() < m2.score());
+    return (m1.score() > m2.score());
 }
 
 inline void DEB(std::string str) { std::cout << str << "\n"; }
@@ -58,6 +58,26 @@ inline int get_piece_index(Piece value) {
     return -1; // If the value is not found
 }
 
+inline std::vector<chess::Move> cmvl_to_v(chess::Movelist mvl) {
+    std::vector<chess::Move> v;
+    for (auto& m : mvl) {
+        v.push_back(m);
+    }
+
+    return v;
+}
+
+inline std::vector<chess::Square> legal_moves_piece(chess::Board* b, chess::PieceGenType p) {
+    chess::Movelist moves;
+    chess::movegen::legalmoves(moves, *b, chess::PieceGenType::PAWN);
+
+    std::vector<chess::Square> v;
+    for (auto& m : moves) {
+        v.push_back(m.to());
+    }
+    return v;
+}
+
 inline std::vector<chess::Move> legal_moves(chess::Board* b, bool generate_captures = false) {
     chess::Movelist legal_moves;
     chess::movegen::legalmoves(legal_moves, *b);
@@ -76,15 +96,21 @@ inline std::vector<chess::Move> legal_moves(chess::Board* b, bool generate_captu
     return legal_moves_v;
 }
 
-inline bool is_legal(chess::Move& move, chess::Board* b) {
-    auto legal_moves = utils::legal_moves(b);
-    for (auto& m : legal_moves) {
-        if (move == m) {
+template <typename T>
+inline bool is_in_vector(T& move, std::vector<T> moves) {
+    for (auto& m : moves) {
+        if (m == move) {
             return true;
         }
     }
 
     return false;
+}
+
+inline bool is_legal(chess::Move& move, chess::Board* b) {
+    auto legal_moves = utils::legal_moves(b);
+
+    return utils::is_in_vector(move, utils::legal_moves(b));
 }
 
 // https://stackoverflow.com/questions/17032970/clear-data-inside-text-file-in-c

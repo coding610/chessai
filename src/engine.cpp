@@ -36,9 +36,9 @@ chess::Move Engine::think() {
 chess::Move Engine::search_begin() {
     chess::Move best_move;
     float best_evaluation = this->color == chess::Color::WHITE ? this->NEGATIVE_INFINITY : this->POSITIVE_INFINITY;
-
     auto legal_moves = utils::legal_moves(this->board);
     this->order_moves(legal_moves);
+
     for (auto& move : legal_moves) {
         this->board->makeMove(move);
         float evaluation = this->search(this->MAX_DEPTH - 1, this->NEGATIVE_INFINITY, this->POSITIVE_INFINITY);
@@ -89,7 +89,7 @@ float Engine::search( int depth, float alpha, float beta) {
         if (this->ab_pruning) {
             if (beta <= alpha) {
                 this->ab++;
-                break; // return alpha;
+                return alpha;
             }
         }
 
@@ -121,28 +121,41 @@ float Engine::quiescense_search(
     return evaluation;
 }
 
-std::vector<chess::Move> Engine::order_moves(std::vector<chess::Move> moves) {
+void Engine::order_moves(std::vector<chess::Move>& moves) {
     int score;
     for (auto& move : moves) {
         score = 0;
         chess::Piece piece_from = this->board->at( move.from() );
         chess::Piece piece_attacking = this->board->at( move.to() );
+        chess::Square square_attacking = move.to();
 
+
+        // Rewarding and punishing capturing pieces
         if (piece_attacking != chess::Piece::NONE) {
             // Sebastian Lauge did without parantathes
             // Might need to change this in the future
-            score += 10 * (this->get_piece_value(piece_from) - this->get_piece_value(piece_attacking));
-        } else {
-
+            score += 10 * this->get_piece_value(piece_from) - this->get_piece_value(piece_attacking);
         }
+
+        // Promoting a pawn is likely to be good
+        if (board->sideToMove() == chess::Color::WHITE) {
+            if (move.to().rank() == chess::Rank::RANK_8) score += this->get_piece_value(piece_attacking);
+        } else {
+            if (move.to().rank() == chess::Rank::RANK_1) score += this->get_piece_value(piece_attacking);
+        }
+
+        // Punishing pieces from moving to a square attacked by a pawn
+        this->board->makeMove(move);
+        if (utils::is_in_vector(square_attacking, utils::legal_moves_piece(this->board, chess::PieceGenType::PAWN))) {
+            score -= this->get_piece_value(piece_from);
+        }
+        this->board->unmakeMove(move);
 
         move.setScore(score);
     }
 
     // Order legal_moves by its score value
     std::sort(moves.begin(), moves.end(), utils::compare_score);
-
-    return moves;
 }
 
 int Engine::get_piece_value(chess::Piece p) {

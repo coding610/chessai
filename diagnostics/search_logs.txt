@@ -1,7 +1,0 @@
-
---- Engine Evaluation Finished -- Current Move: 1 ---
---- Position searched: 15209 ---
---- αβ Pruning Index: 944 ---
---- Duration: 155ms ---
---- Final Move Chooosen: b8c6 ---
-
