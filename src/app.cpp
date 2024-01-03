@@ -116,7 +116,7 @@ void App::move_piece() {
         );
 
         chess::Move move = chess::Move::make(this->moving_from, moving_to);
-        if (!utils::is_legal(move, this->board)) {
+        if (!utils::is_legal(move, &this->board)) {
             return;
         }
 

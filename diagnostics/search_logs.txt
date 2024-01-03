@@ -1,18 +1,7 @@
 
 --- Engine Evaluation Finished -- Current Move: 1 ---
---- Position searched: 13160 ---
---- Duration: 108ms ---
---- Final Move Chooosen: g8h6 ---
-
-
---- Engine Evaluation Finished -- Current Move: 2 ---
---- Position searched: 16820 ---
---- Duration: 133ms ---
---- Final Move Chooosen: h8g8 ---
-
-
---- Engine Evaluation Finished -- Current Move: 3 ---
---- Position searched: 14678 ---
---- Duration: 116ms ---
---- Final Move Chooosen: g7h6 ---
+--- Position searched: 15209 ---
+--- αβ Pruning Index: 944 ---
+--- Duration: 155ms ---
+--- Final Move Chooosen: b8c6 ---
 

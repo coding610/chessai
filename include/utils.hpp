@@ -8,6 +8,10 @@
 
 namespace utils {
 
+inline bool compare_score(chess::Move m1, chess::Move m2) {
+    return (m1.score() < m2.score());
+}
+
 inline void DEB(std::string str) { std::cout << str << "\n"; }
 inline void DEB(int i) { std::cout << i << "\n"; }
 inline void DEB(chess::Move m) { std::cout << m << "\n"; }
@@ -54,19 +58,25 @@ inline int get_piece_index(Piece value) {
     return -1; // If the value is not found
 }
 
-inline std::vector<chess::Move> legal_moves(chess::Board& b) {
+inline std::vector<chess::Move> legal_moves(chess::Board* b, bool generate_captures = false) {
     chess::Movelist legal_moves;
-    chess::movegen::legalmoves(legal_moves, b);
-
+    chess::movegen::legalmoves(legal_moves, *b);
+    // Might need to change this for speed
     std::vector<chess::Move> legal_moves_v;
-    for (auto& m : legal_moves) {
-        legal_moves_v.push_back(m);
+    for (auto& move : legal_moves) {
+        if (generate_captures) {
+            if (b->isCapture(move)) {
+                legal_moves_v.push_back(move);
+            }
+        } else {
+            legal_moves_v.push_back(move);
+        }
     }
 
     return legal_moves_v;
 }
 
-inline bool is_legal(chess::Move& move, chess::Board& b) {
+inline bool is_legal(chess::Move& move, chess::Board* b) {
     auto legal_moves = utils::legal_moves(b);
     for (auto& m : legal_moves) {
         if (move == m) {
@@ -92,7 +102,7 @@ inline void clear_search_log() {
     ofs3.close();
 }
 
-inline void write_search_log(chess::Color engine_color, chess::Color search_color, int depth, chess::Move best_move, float evaluation, int index) {
+inline void write_search_log(chess::Color engine_color, chess::Color search_color, int depth, int ab, chess::Move best_move, float evaluation, int index) {
     std::ofstream dia_file;
     dia_file.open("diagnostics/depth_search_logs.txt", std::ios::app);
 
@@ -100,6 +110,7 @@ inline void write_search_log(chess::Color engine_color, chess::Color search_colo
     dia_file << "--- Engine Color: " << engine_color
              << " -- Search Color: " << search_color
              << " -- Depth: "        << depth
+             << " -- Current αβ pruning index: " << ab
              << " -- Best Move: "    << best_move
              << " -- Evaluation: "   << evaluation
              << " -- Move Index: " << index
@@ -108,7 +119,7 @@ inline void write_search_log(chess::Color engine_color, chess::Color search_colo
     dia_file.close();
 }
 
-inline void write_ld_search_log(chess::Color engine_color, chess::Color search_color, int depth, chess::Move best_move, float evaluation, int index) {
+inline void write_ld_search_log(chess::Color engine_color, chess::Color search_color, int depth, int ab, chess::Move best_move, float evaluation, int index) {
     std::ofstream dia_file;
     dia_file.open("diagnostics/low_depth_search_logs.txt", std::ios::app);
 
@@ -116,6 +127,7 @@ inline void write_ld_search_log(chess::Color engine_color, chess::Color search_c
     dia_file << "--- Engine Color: " << engine_color
              << " -- Search Color: " << search_color
              << " -- Depth: "        << depth
+             << " -- Current αβ pruning index: " << ab
              << " -- Best Move: "    << best_move
              << " -- Evaluation: "   << evaluation
              << " -- Move Index: " << index

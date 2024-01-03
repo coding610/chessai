@@ -1,58 +1,20 @@
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b7b6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: c7c6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: d7d6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: e7e6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7g6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: h7h6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: c7c5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: d7d5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: e7e5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: e7e5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7g5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: h7h5 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b8a6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b8c6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g8f6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g8h6 -- Evaluation: 0 -- Move Index: 1
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b7b6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: c7c6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: d7d6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: e7e6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7g6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: a7a5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: d7d5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: d7d5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: f7f5 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: h6g8 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b8a6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: b8c6 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: h8g8 -- Evaluation: 0 -- Move Index: 2
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Best Move: g7h6 -- Evaluation: -125 -- Move Index: 3
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 44 -- Best Move: a7a6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 90 -- Best Move: b7b6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 136 -- Best Move: b7b6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 188 -- Best Move: d7d6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 243 -- Best Move: d7d6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 287 -- Best Move: f7f6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 333 -- Best Move: f7f6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 377 -- Best Move: h7h6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 423 -- Best Move: a7a5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 469 -- Best Move: b7b5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 516 -- Best Move: b7b5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 569 -- Best Move: d7d5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 624 -- Best Move: d7d5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 669 -- Best Move: f7f5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 714 -- Best Move: f7f5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 760 -- Best Move: h7h5 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 805 -- Best Move: b8a6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 852 -- Best Move: b8c6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 899 -- Best Move: b8c6 -- Evaluation: 100 -- Move Index: 1
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 944 -- Best Move: b8c6 -- Evaluation: 100 -- Move Index: 1

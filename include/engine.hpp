@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <limits>
 #include <vector>
 #include "chess.hpp"
 
@@ -14,16 +12,17 @@ private:
     const int BISHOP_VALUE = 300;
     const int ROOK_VALUE = 500;
     const int QUEEN_VALUE = 900;
-    const float POSITIVE_INFINITY = std::numeric_limits<float>::max();;
-    const float NEGATIVE_INFINITY = -std::numeric_limits<float>::max();
+    const float POSITIVE_INFINITY = 999999999.0;
+    const float NEGATIVE_INFINITY = -999999999.0;
     float BEST_POSSIBLE_VALUE;
     float WORST_POSSIBLE_VALUE;
     int MAX_DEPTH;
 
     int positions_searched = 0;
     int engine_move_index = 0;
-    bool ab_pruning;
     int ab = 0;
+    bool ab_pruning;
+    bool write_low_depth_search_log = false;
 
     // Objects
     chess::Board* board;
@@ -37,16 +36,15 @@ public:
     void setBoard(chess::Board* b);
 
     chess::Move think();
+    float evaluate_fen();
     chess::Move search_begin();
+    float quiescense_search(float alpha, float beta);
     float search(
-        chess::Board& board,
         int depth,
         float alpha,
-        float beta,
-        bool maximizing_player
+        float beta
     );
-    float evaluate_fen(std::string fen);
 
-    std::vector<chess::Move> ordered_moves(chess::Board& b);
-    int get_piece_value(chess::Board b, int x, int y);
+    std::vector<chess::Move> order_moves(std::vector<chess::Move> moves);
+    int get_piece_value(chess::Piece p);
 };
