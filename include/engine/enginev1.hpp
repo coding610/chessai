@@ -21,7 +21,7 @@ private:
     int MAX_DEPTH;
 
     Diagnostics diagnostics;
-    bool debug_mode = false;
+    bool debug_mode = true;
 
     // Objects
     chess::Board* board;

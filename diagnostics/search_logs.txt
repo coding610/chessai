@@ -2,20 +2,34 @@
 --- b Engine Evaluation Finished -- Current Move: 1 ---
 --- Position searched: 437627 ---
 --- αβ Pruning Index: 16228 ---
---- Duration: 3631ms ---
+--- Duration: 3799ms ---
 --- Final Move Chooosen: a3b2 ---
 
 
 --- b Engine Evaluation Finished -- Current Move: 2 ---
 --- Position searched: 172298 ---
 --- αβ Pruning Index: 5347 ---
---- Duration: 1372ms ---
+--- Duration: 1546ms ---
 --- Final Move Chooosen: e7f6 ---
 
 
 --- b Engine Evaluation Finished -- Current Move: 3 ---
---- Position searched: 301139 ---
---- αβ Pruning Index: 10075 ---
---- Duration: 2357ms ---
+--- Position searched: 182028 ---
+--- αβ Pruning Index: 5832 ---
+--- Duration: 1641ms ---
 --- Final Move Chooosen: f6f2 ---
+
+
+--- b Engine Evaluation Finished -- Current Move: 4 ---
+--- Position searched: 172029 ---
+--- αβ Pruning Index: 6651 ---
+--- Duration: 1670ms ---
+--- Final Move Chooosen: h8g8 ---
+
+
+--- b Engine Evaluation Finished -- Current Move: 5 ---
+--- Position searched: 83436 ---
+--- αβ Pruning Index: 4453 ---
+--- Duration: 1011ms ---
+--- Final Move Chooosen: f2d2 ---
 

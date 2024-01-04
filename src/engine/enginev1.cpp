@@ -8,24 +8,21 @@
 
 
 chess::Move EngineV1::think() {
-    this->diagnostics.engine_move_index++;
-    this->diagnostics.positions_searched = 0;
-    this->diagnostics.ab = 0;
+    this->diagnostics.new_move();
 
     auto time_begin = std::chrono::steady_clock::now();
     auto best_move = this->search_begin();
     auto time_end = std::chrono::steady_clock::now();
 
     diagnostics.write_custom_search_log(this->color, best_move, time_end, time_begin);
-
     return best_move;
 }
 
 chess::Move EngineV1::search_begin() {
-    chess::Move best_move;
     int player = this->color == chess::Color::WHITE ? 1 : -1;
     float best_evaluation = -player * this->POSITIVE_INFINITY;
 
+    chess::Move best_move;
     auto legal_moves = utils::legal_moves(this->board);
     for (auto& move : legal_moves) {
         this->board->makeMove(move);
@@ -42,8 +39,8 @@ chess::Move EngineV1::search_begin() {
             this->diagnostics.path = this->diagnostics.long_path[utils::get_move_index(legal_moves, move)];
             this->diagnostics.path.insert(this->diagnostics.path.begin(), branch.begin(), branch.end());
 
-            this->diagnostics.write_search_log(this->color, this->color, 0, best_move, best_evaluation, true);
-            this->diagnostics.write_all_search_log(this->color, this->color, 0, move, evaluation, false);
+            this->diagnostics.write_search_log(this->color, this->color, 0, best_move, best_evaluation, false);
+            this->diagnostics.write_all_search_log(this->color, this->color, 0, move, evaluation, true);
             this->diagnostics.path = {};
         }
     }
@@ -85,9 +82,8 @@ float EngineV1::search(int depth, float alpha, float beta, int player) {
         }
     }
 
-    if (this->debug_mode) {
+    if (this->debug_mode)
         utils::path_generation(diagnostics, depth, legal_moves, best_move);
-    }
     return alpha;
 }
 

@@ -22,6 +22,12 @@ public:
     std::vector<std::vector<chess::Move>> long_path;
 
 public:
+    void new_move() {
+        this->positions_searched = 0;
+        this->ab = 0;
+        this->engine_move_index++;
+    }
+
     void clear_search_log() {
         std::ofstream ofs;
         ofs.open("diagnostics/search_logs.txt", std::ofstream::out | std::ofstream::trunc);
