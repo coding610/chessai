@@ -4,6 +4,7 @@
 #include "app.hpp"
 #include "engine.hpp"
 #include "utils.hpp"
+#include "diagnostics.hpp"
 
 using utils::DEB;
 using utils::DBN;
@@ -270,8 +271,9 @@ App::App(
     bool player_playing = true,
     bool scorewindow = false
 ) {
-    utils::clear_search_log();
-    
+    Diagnostics d;
+    d.clear_search_log();
+
     this->resolution = sf::VideoMode(800, 800);
     this->cellsize = this->resolution.width / 8.0;
     this->window = new sf::RenderWindow(this->resolution, "Chess - Game", sf::Style::Titlebar | sf::Style::Close);

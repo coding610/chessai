@@ -1,15 +1,72 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include "chess.hpp"
 #include "app.hpp"
+#include "diagnostics.hpp"
 
 namespace utils {
 
+template<typename T>
+inline void copy_and_erease_vector(std::vector<T>& ereasev, std::vector<T>& copyv) {
+    ereasev = {};
+    for (int i = 0; i < copyv.size(); i++) {
+        ereasev.push_back(copyv[i]);
+    }
+}
+
+inline int get_move_index(std::vector<chess::Move> vec, chess::Move m) {
+    for (int i = 0; i < vec.size(); i++) {
+        if (vec[i] == m) return i;
+    }
+
+    return -1;
+}
+
 inline bool compare_score(chess::Move m1, chess::Move m2) {
     return (m1.score() > m2.score());
+}
+
+inline float min_max(chess::Color clr, float ev, float bev) {
+    if (clr == chess::Color::WHITE) {
+        return std::max(ev, bev);
+    } else {
+        return std::min(ev, bev);
+    }
+}
+
+inline void path_generation(
+    Diagnostics& diagnostics,
+    int depth,
+    std::vector<chess::Move> legal_moves,
+    chess::Move best_move
+) {
+    if (depth == 1) { // best_path.size() == 0
+        diagnostics.long_path.push_back({best_move});
+        return;
+    }
+
+    ////// REMOVE ROTTEN BRANCH //////
+    std::vector<std::vector<chess::Move>> depth_path = {};
+    for (auto& p : diagnostics.long_path) {
+        if (p.size() >= depth) {
+            depth_path.push_back(p);
+        }
+    }
+
+    ////// CREATE INDEX //////
+    int index = utils::get_move_index(legal_moves, best_move);
+    if (index == -1) best_move = legal_moves[0];
+
+    ////// BRANCH NEW VECTOR //////
+    std::vector<chess::Move> branch = diagnostics.long_path[depth_path.size() + utils::get_move_index(legal_moves, best_move)];
+    branch.push_back(best_move);
+    depth_path.push_back(branch);
+    utils::copy_and_erease_vector(diagnostics.long_path, depth_path);
+
 }
 
 inline void DEB(std::string str) { std::cout << str << "\n"; }
@@ -40,14 +97,6 @@ inline std::string square_to_san(chess::Square square) {
     char fileChar = 'a' + static_cast<char>(square.file());
     int rankNumber = static_cast<int>(square.rank()) + 1;
     return std::string{fileChar} + std::to_string(rankNumber);
-}
-
-template<typename T>
-inline void copy_and_erease_vector(std::vector<T>* ereasev, std::vector<T>& copyv) {
-    *ereasev = {};
-    for (int i = 0; i < copyv.size(); i++) {
-        ereasev->push_back(copyv[i]);
-    }
 }
 
 inline int get_piece_index(Piece value) {
@@ -111,63 +160,6 @@ inline bool is_legal(chess::Move& move, chess::Board* b) {
     auto legal_moves = utils::legal_moves(b);
 
     return utils::is_in_vector(move, utils::legal_moves(b));
-}
-
-// https://stackoverflow.com/questions/17032970/clear-data-inside-text-file-in-c
-inline void clear_search_log() {
-    std::ofstream ofs;
-    ofs.open("diagnostics/search_logs.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs.close();
-
-    std::ofstream ofs2;
-    ofs2.open("diagnostics/depth_search_logs.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs2.close();
-
-    std::ofstream ofs3;
-    ofs3.open("diagnostics/low_depth_search_logs.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs3.close();
-}
-
-inline void write_search_log(chess::Color engine_color, chess::Color search_color, int depth, int ab, chess::Move best_move, float evaluation, int index) {
-    std::ofstream dia_file;
-    dia_file.open("diagnostics/depth_search_logs.txt", std::ios::app);
-
-    // --- Engine Color: WHITE -- Search Color: BLACK -- Depth: 3 -- Best_move: a2a3 -- Evaluation: -1.0 ---
-    dia_file << "--- Engine Color: " << engine_color
-             << " -- Search Color: " << search_color
-             << " -- Depth: "        << depth
-             << " -- Current αβ pruning index: " << ab
-             << " -- Best Move: "    << best_move
-             << " -- Evaluation: "   << evaluation
-             << " -- Move Index: " << index
-             << "\n";
-
-    dia_file.close();
-}
-
-inline void write_ld_search_log(chess::Color engine_color, chess::Color search_color, int depth, int ab, chess::Move best_move, float evaluation, int index) {
-    std::ofstream dia_file;
-    dia_file.open("diagnostics/low_depth_search_logs.txt", std::ios::app);
-
-    // --- Engine Color: WHITE -- Search Color: BLACK -- Depth: 3 -- Best_move: a2a3 -- Evaluation: -1.0 ---
-    dia_file << "--- Engine Color: " << engine_color
-             << " -- Search Color: " << search_color
-             << " -- Depth: "        << depth
-             << " -- Current αβ pruning index: " << ab
-             << " -- Best Move: "    << best_move
-             << " -- Evaluation: "   << evaluation
-             << " -- Move Index: " << index
-             << "\n";
-
-    dia_file.close();
-}
-
-inline void write_custom_search_log(std::string message) {
-    std::ofstream dia_file;
-    dia_file.open("diagnostics/search_logs.txt", std::ios::app);
-
-    dia_file << message;
-    dia_file.close();
 }
 
 class Line {

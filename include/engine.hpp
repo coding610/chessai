@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "chess.hpp"
+#include "diagnostics.hpp"
 
 
 class Engine {
@@ -18,21 +19,18 @@ private:
     float WORST_POSSIBLE_VALUE;
     int MAX_DEPTH;
 
-    int positions_searched = 0;
-    int engine_move_index = 0;
-    int ab = 0;
-    bool ab_pruning;
-    bool write_low_depth_search_log = false;
+    Diagnostics diagnostics;
+    bool debug_mode = true;
 
     // Objects
     chess::Board* board;
     chess::Color color;
 
 public:
-    std::vector<std::vector<chess::Move>> best_path;
+    // PLACE HOLDER: FIXME
     std::vector<chess::Move> total_path;
 
-    Engine(chess::Color color, bool ab_pruning, int maxdepth);
+    Engine(chess::Color color, int maxdepth);
     void setBoard(chess::Board* b);
 
     chess::Move think();
@@ -42,7 +40,8 @@ public:
     float search(
         int depth,
         float alpha,
-        float beta
+        float beta,
+        int player
     );
 
     void order_moves(std::vector<chess::Move>& moves);
