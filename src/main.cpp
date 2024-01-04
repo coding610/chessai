@@ -1,13 +1,12 @@
-#include "engine.hpp"
+#include "engine/enginev1.hpp"
 #include "app.hpp"
 
 
 int main() {
-    // Engine* enginew = new Engine(chess::Color::WHITE, 4);
-    Engine* enginew = new Engine(chess::Color::WHITE, 5);
-    Engine* engineb = new Engine(chess::Color::BLACK, 5);
+    EngineV1* enginew = new EngineV1(chess::Color::WHITE, 4);
+    EngineV1* engineb = new EngineV1(chess::Color::BLACK, 4);
 
-    App app = App(enginew, engineb, chess::Color::WHITE, false, false);
+    App app = App(enginew, engineb, chess::Color::WHITE, true, false);
     app.run();
 
     return 0;

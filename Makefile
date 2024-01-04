@@ -7,6 +7,7 @@ EXE_NAME=$(EXE_PATH)main
 
 
 SRC=src/*.cpp
+SRC2=src/engine/*.cpp
 SRC_DIR=src
 INC_DIR=include
 OBJ_PATH=build
@@ -32,7 +33,7 @@ debug_clean:
 	mv a.out.dSYM $(EXE_PATH)debug.dSYM
 
 compile:
-	$(CC) -c $(SRC) $(CFLAGS)
+	$(CC) -c $(SRC) $(SRC2) $(CFLAGS)
 .PHONY: compile
 
 link:

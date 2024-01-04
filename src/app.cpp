@@ -2,7 +2,7 @@
 #include <string>
 #include "chess.hpp"
 #include "app.hpp"
-#include "engine.hpp"
+#include "engine/engine.hpp"
 #include "utils.hpp"
 #include "diagnostics.hpp"
 
@@ -23,7 +23,6 @@ void App::run() {
         this->handle_events();
         this->draw_board();
         this->draw_position();
-        this->display_arrows();
         this->window->display();
     }
 }
@@ -212,58 +211,6 @@ void App::draw_position() {
     }
 }
 
-void App::display_arrows() {
-    if (!this->show_arrows) return;
-
-    for (auto& e : {this->main_engine, this->secondary_engine}) {
-        if (this->player_playing) {
-            return;
-        }
-
-        for (int i = 0; i < e->total_path.size(); i++) {
-            auto move = e->total_path[i];
-            auto color = i * 255 / e->total_path.size();
-
-            utils::Line line(
-                sf::Vector2f(
-                    move.from().file() * this->cellsize + this->cellsize / 2,
-                    7.5 * this->cellsize - this->cellsize * move.from().rank()
-                ),
-                sf::Vector2f(
-                    move.to().file() * this->cellsize + this->cellsize / 2,
-                    7.5 * this->cellsize - this->cellsize * move.to().rank()
-                ),
-                sf::Color(color, color, color),
-                10.0
-            );
-
-            sf::CircleShape from;
-            from.setFillColor(sf::Color(255, 255, 255));
-            from.setOutlineColor(sf::Color(0, 0, 0));
-            from.setOutlineThickness(2);
-            from.setRadius(10);
-            from.setPosition(
-                line.start_pos.x - from.getRadius(),
-                line.start_pos.y - from.getRadius()
-            );
-
-            sf::CircleShape to;
-            to.setFillColor(sf::Color(0, 0, 0));
-            to.setOutlineColor(sf::Color(255, 255, 255));
-            to.setOutlineThickness(2);
-            to.setRadius(10);
-            to.setPosition(
-                line.end_pos.x - to.getRadius(),
-                line.end_pos.y - to.getRadius()
-            );
-
-            line.draw(*this->window);
-            this->window->draw(from);
-            this->window->draw(to);
-        }
-    }
-}
-
 App::App(
     Engine* enginew,
     Engine* engineb,
@@ -282,16 +229,16 @@ App::App(
 
     this->board = chess::Board("rnb1k2r/1pp1qpp1/4p2p/8/p3Q1P1/bP6/P1PP1P1P/BK1R1BNR w kq - 0 12");
 
+    this->player_playing = player_playing;
     this->playing_color = playing_color;
     this->engine_color = !playing_color;
-    this->player_playing = player_playing;
 
     if (this->player_playing) {
         if (playing_color == chess::Color::WHITE) {
-            this->main_engine = enginew;
+            this->main_engine = engineb;
             this->main_engine->setBoard(&this->board);
         } else {
-            this->main_engine = engineb;
+            this->main_engine = enginew;
             this->main_engine->setBoard(&this->board);
         }
     } else {

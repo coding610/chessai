@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <iostream>
-#include <fstream>
 #include "chess.hpp"
 #include "app.hpp"
 #include "diagnostics.hpp"

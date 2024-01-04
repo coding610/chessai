@@ -2,10 +2,11 @@
 
 #include <vector>
 #include "chess.hpp"
+#include "engine/engine.hpp"
 #include "diagnostics.hpp"
 
 
-class Engine {
+class EngineV1 : public Engine {
 private:
     // Constants
     const int PAWN_VALUE = 100;
@@ -20,7 +21,7 @@ private:
     int MAX_DEPTH;
 
     Diagnostics diagnostics;
-    bool debug_mode = true;
+    bool debug_mode = false;
 
     // Objects
     chess::Board* board;
@@ -28,22 +29,16 @@ private:
 
 public:
     // PLACE HOLDER: FIXME
-    std::vector<chess::Move> total_path;
+    EngineV1(chess::Color clr, int maxdepth);
+    void setBoard(chess::Board* b) override;
 
-    Engine(chess::Color color, int maxdepth);
-    void setBoard(chess::Board* b);
-
-    chess::Move think();
-    float evaluate_fen();
+    chess::Move think() override;
+    float search(int depth, float alpha, float beta, int player);
     chess::Move search_begin();
-    float quiescense_search(float alpha, float beta);
-    float search(
-        int depth,
-        float alpha,
-        float beta,
-        int player
-    );
+    float evaluate_fen();
 
+    float quiescense_search(float alpha, float beta);
     void order_moves(std::vector<chess::Move>& moves);
+    float see();
     int get_piece_value(chess::Piece p);
 };

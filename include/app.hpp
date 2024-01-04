@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "chess.hpp"
-#include "engine.hpp"
+#include "engine/engine.hpp"
 
 enum Colorscheme {
     def,
@@ -72,7 +72,6 @@ public:
     void move_piece();
     void draw_position();
     void draw_board();
-    void display_arrows();
     void handle_events();
     void handle_moves();
 };

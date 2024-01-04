@@ -1,15 +1,13 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include "engine/enginev1.hpp"
 #include "diagnostics.hpp"
 #include "chess.hpp"
-#include "engine.hpp"
 #include "utils.hpp"
 
-using utils::DEB;
-using utils::DBN;
 
-chess::Move Engine::think() {
+chess::Move EngineV1::think() {
     this->diagnostics.engine_move_index++;
     this->diagnostics.positions_searched = 0;
     this->diagnostics.ab = 0;
@@ -23,7 +21,7 @@ chess::Move Engine::think() {
     return best_move;
 }
 
-chess::Move Engine::search_begin() {
+chess::Move EngineV1::search_begin() {
     chess::Move best_move;
     int player = this->color == chess::Color::WHITE ? 1 : -1;
     float best_evaluation = -player * this->POSITIVE_INFINITY;
@@ -45,7 +43,7 @@ chess::Move Engine::search_begin() {
             this->diagnostics.path.insert(this->diagnostics.path.begin(), branch.begin(), branch.end());
 
             this->diagnostics.write_search_log(this->color, this->color, 0, best_move, best_evaluation, true);
-            this->diagnostics.write_all_search_log(this->color, this->color, 0, move, evaluation, true);
+            this->diagnostics.write_all_search_log(this->color, this->color, 0, move, evaluation, false);
             this->diagnostics.path = {};
         }
     }
@@ -53,7 +51,7 @@ chess::Move Engine::search_begin() {
     return best_move;
 }
 
-float Engine::search(int depth, float alpha, float beta, int player) {
+float EngineV1::search(int depth, float alpha, float beta, int player) {
     if (depth == 0) {
         auto ev = player * this->quiescense_search(alpha, beta);
         return ev;
@@ -95,26 +93,13 @@ float Engine::search(int depth, float alpha, float beta, int player) {
 
 // https://www.chessprogramming.org/Quiescence_Search
 // This is to prevent the horizon effect
-float Engine::quiescense_search(
-    float alpha,
-    float beta
-) {
-    ////// STANDING PAT //////
-    float evaluation = this->evaluate_fen();
-    // if (evaluation >= beta) {
-    //     return beta;
-    // } else {
-    //     alpha = std::max(alpha, evaluation);
-    // }
-    //
-    // for (auto& m : )
-
-
-    return evaluation;
+float EngineV1::quiescense_search(float alpha, float beta) {
+    return this->evaluate_fen();
 }
 
 // https://www.chessprogramming.org/Move_Ordering
-void Engine::order_moves(std::vector<chess::Move>& moves) {
+// https://www.chessprogramming.org/SEE_-_The_Swap_Algorithm
+void EngineV1::order_moves(std::vector<chess::Move>& moves) {
     int score;
     for (auto& move : moves) {
         score = 0;
@@ -137,7 +122,7 @@ void Engine::order_moves(std::vector<chess::Move>& moves) {
     std::sort(moves.begin(), moves.end(), utils::compare_score);
 }
 
-int Engine::get_piece_value(chess::Piece p) {
+int EngineV1::get_piece_value(chess::Piece p) {
     switch (p) {
         case 0: return this->PAWN_VALUE;
         case 1: return this->KNIGHT_VALUE;
@@ -156,7 +141,7 @@ int Engine::get_piece_value(chess::Piece p) {
     }
 }
 
-float Engine::evaluate_fen() {
+float EngineV1::evaluate_fen() {
     this->diagnostics.positions_searched++;
     std::string fen = this->board->getFen();
 
@@ -180,12 +165,12 @@ float Engine::evaluate_fen() {
     return 0.0;
 }
 
-Engine::Engine(chess::Color color, int MAX_DEPTH) {
+EngineV1::EngineV1(chess::Color clr, int MAX_DEPTH) {
     this->MAX_DEPTH = MAX_DEPTH;
-    this->color = color;
+    this->color = clr;
     this->diagnostics = Diagnostics();
 }
 
-void Engine::setBoard(chess::Board* b) {
+void EngineV1::setBoard(chess::Board* b) {
     this->board = b;
 }
