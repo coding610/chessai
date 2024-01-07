@@ -2,6 +2,20 @@
 --- b Engine Evaluation Finished -- Current Move: 1 ---
 --- Position searched: 170888 ---
 --- αβ Pruning Index: 8687 ---
---- Duration: 1726ms ---
+--- Duration: 104ms ---
 --- Final Move Chooosen: a3b2 ---
+
+
+--- b Engine Evaluation Finished -- Current Move: 2 ---
+--- Position searched: 118334 ---
+--- αβ Pruning Index: 6757 ---
+--- Duration: 75ms ---
+--- Final Move Chooosen: e7f6 ---
+
+
+--- b Engine Evaluation Finished -- Current Move: 3 ---
+--- Position searched: 138042 ---
+--- αβ Pruning Index: 7945 ---
+--- Duration: 92ms ---
+--- Final Move Chooosen: f6f2 ---
 
