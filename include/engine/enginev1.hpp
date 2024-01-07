@@ -16,8 +16,6 @@ private:
     const int QUEEN_VALUE = 900;
     const float POSITIVE_INFINITY = 999999999.0;
     const float NEGATIVE_INFINITY = -999999999.0;
-    float BEST_POSSIBLE_VALUE;
-    float WORST_POSSIBLE_VALUE;
     int MAX_DEPTH;
 
     Diagnostics diagnostics;
@@ -30,15 +28,18 @@ private:
 public:
     // PLACE HOLDER: FIXME
     EngineV1(chess::Color clr, int maxdepth);
-    void setBoard(chess::Board* b) override;
+    void set_board(chess::Board* b) override;
 
     chess::Move think() override;
-    float search(int depth, float alpha, float beta, int player);
     chess::Move search_begin();
-    float evaluate_fen();
+    float search(int depth, float alpha, float beta, int player);
 
     float quiescense_search(float alpha, float beta);
+
     void order_moves(std::vector<chess::Move>& moves);
-    float see(chess::Move move);
+    int see(chess::Square& square, int side);
+    chess::Square smallest_attacker(chess::Square& square, int side);
+
+    int evaluate_fen();
     int get_piece_value(chess::Piece p);
 };

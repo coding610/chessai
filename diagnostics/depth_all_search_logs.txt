@@ -1,148 +1,76 @@
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 127 -- Move: e8d7 -- Evaluation: 300 -- Move Index: 1
---- - e8d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 258 -- Move: e8d8 -- Evaluation: 300 -- Move Index: 1
---- - e8d8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 470 -- Move: e8f8 -- Evaluation: 100 -- Move Index: 1
---- - e8f8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 704 -- Move: e8h8 -- Evaluation: 100 -- Move Index: 1
---- - e8h8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 989 -- Move: a4b3 -- Evaluation: 200 -- Move Index: 1
---- - a4b3 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1600 -- Move: e6e5 -- Evaluation: 300 -- Move Index: 1
---- - e6e5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2240 -- Move: h6h5 -- Evaluation: 300 -- Move Index: 1
---- - h6h5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2412 -- Move: b7b6 -- Evaluation: 500 -- Move Index: 1
---- - b7b6 - e8g1 - a8a4 - e4a4 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3140 -- Move: c7c6 -- Evaluation: 200 -- Move Index: 1
---- - c7c6 - e8g1 - f7e6 - e4e6 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3403 -- Move: f7f6 -- Evaluation: 300 -- Move Index: 1
---- - f7f6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3505 -- Move: g7g6 -- Evaluation: 500 -- Move Index: 1
---- - g7g6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4026 -- Move: b7b5 -- Evaluation: 500 -- Move Index: 1
---- - b7b5 - e8g1 - b5a4 - e4a4 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4176 -- Move: c7c5 -- Evaluation: 300 -- Move Index: 1
---- - c7c5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4393 -- Move: f7f5 -- Evaluation: 300 -- Move Index: 1
---- - f7f5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4485 -- Move: g7g5 -- Evaluation: 500 -- Move Index: 1
---- - g7g5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4789 -- Move: b8a6 -- Evaluation: 400 -- Move Index: 1
---- - b8a6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5152 -- Move: b8c6 -- Evaluation: 375 -- Move Index: 1
---- - b8c6 - e8g1 - f7e6 - e4e6 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5439 -- Move: b8d7 -- Evaluation: 200 -- Move Index: 1
---- - b8d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5530 -- Move: a3b2 -- Evaluation: 0 -- Move Index: 1
---- - a3b2 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5784 -- Move: a3b4 -- Evaluation: 400 -- Move Index: 1
---- - a3b4 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6373 -- Move: a3c5 -- Evaluation: 200 -- Move Index: 1
---- - a3c5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6754 -- Move: a3d6 -- Evaluation: 200 -- Move Index: 1
---- - a3d6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7371 -- Move: c8d7 -- Evaluation: 300 -- Move Index: 1
---- - c8d7 - b7a8 - a3b2 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8538 -- Move: a8a5 -- Evaluation: 200 -- Move Index: 1
---- - a8a5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8677 -- Move: a8a6 -- Evaluation: 500 -- Move Index: 1
---- - a8a6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8911 -- Move: a8a7 -- Evaluation: 300 -- Move Index: 1
---- - a8a7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 9080 -- Move: h8h7 -- Evaluation: 500 -- Move Index: 1
---- - h8h7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 9253 -- Move: h8f8 -- Evaluation: 300 -- Move Index: 1
---- - h8f8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 9452 -- Move: h8g8 -- Evaluation: 300 -- Move Index: 1
---- - h8g8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 10120 -- Move: e7b4 -- Evaluation: 100 -- Move Index: 1
---- - e7b4 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 10281 -- Move: e7h4 -- Evaluation: 300 -- Move Index: 1
---- - e7h4 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 11191 -- Move: e7c5 -- Evaluation: 300 -- Move Index: 1
---- - e7c5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 11421 -- Move: e7g5 -- Evaluation: 300 -- Move Index: 1
---- - e7g5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 12724 -- Move: e7d6 -- Evaluation: 300 -- Move Index: 1
---- - e7d6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 13225 -- Move: e7f6 -- Evaluation: 900 -- Move Index: 1
---- - e7f6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 13347 -- Move: e7d7 -- Evaluation: 300 -- Move Index: 1
---- - e7d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 13474 -- Move: e7d8 -- Evaluation: 300 -- Move Index: 1
---- - e7d8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 13626 -- Move: e7f8 -- Evaluation: 300 -- Move Index: 1
---- - e7f8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 188 -- Move: e8d7 -- Evaluation: 100 -- Move Index: 2
---- - e8d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 383 -- Move: e8d8 -- Evaluation: 100 -- Move Index: 2
---- - e8d8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 765 -- Move: e8f8 -- Evaluation: 100 -- Move Index: 2
---- - e8f8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1084 -- Move: e8h8 -- Evaluation: 100 -- Move Index: 2
---- - e8h8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1186 -- Move: a4b3 -- Evaluation: 0 -- Move Index: 2
---- - a4b3 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1253 -- Move: a4a3 -- Evaluation: 100 -- Move Index: 2
---- - a4a3 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1592 -- Move: e6e5 -- Evaluation: 200 -- Move Index: 2
---- - e6e5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1860 -- Move: h6h5 -- Evaluation: 100 -- Move Index: 2
---- - h6h5 - e8g1 - a8a4 - e4a4 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2061 -- Move: b7b6 -- Evaluation: 500 -- Move Index: 2
---- - b7b6 - e8g1 - f7e6 - e4e6 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2440 -- Move: c7c6 -- Evaluation: 100 -- Move Index: 2
---- - c7c6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2811 -- Move: f7f6 -- Evaluation: 200 -- Move Index: 2
---- - f7f6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2920 -- Move: g7g6 -- Evaluation: 100 -- Move Index: 2
---- - g7g6 - e8g1 - b5a4 - e4a4 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3391 -- Move: b7b5 -- Evaluation: 500 -- Move Index: 2
---- - b7b5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3603 -- Move: c7c5 -- Evaluation: 100 -- Move Index: 2
---- - c7c5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3713 -- Move: f7f5 -- Evaluation: 100 -- Move Index: 2
---- - f7f5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3801 -- Move: g7g5 -- Evaluation: 100 -- Move Index: 2
---- - g7g5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4043 -- Move: b8a6 -- Evaluation: 375 -- Move Index: 2
---- - b8a6 - e8g1 - f7e6 - e4e6 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4560 -- Move: b8c6 -- Evaluation: 100 -- Move Index: 2
---- - b8c6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4954 -- Move: b8d7 -- Evaluation: 100 -- Move Index: 2
---- - b8d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5362 -- Move: c8d7 -- Evaluation: 100 -- Move Index: 2
---- - c8d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5789 -- Move: a8a5 -- Evaluation: 100 -- Move Index: 2
---- - a8a5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5888 -- Move: a8a6 -- Evaluation: 500 -- Move Index: 2
---- - a8a6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6121 -- Move: a8a7 -- Evaluation: 100 -- Move Index: 2
---- - a8a7 - b7a8 - a3b2 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6223 -- Move: h8h7 -- Evaluation: 500 -- Move Index: 2
---- - h8h7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6332 -- Move: h8f8 -- Evaluation: 100 -- Move Index: 2
---- - h8f8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6534 -- Move: h8g8 -- Evaluation: 100 -- Move Index: 2
---- - h8g8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6561 -- Move: e7a3 -- Evaluation: 900 -- Move Index: 2
---- - e7a3 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6776 -- Move: e7b4 -- Evaluation: 900 -- Move Index: 2
---- - e7b4 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7043 -- Move: e7h4 -- Evaluation: 100 -- Move Index: 2
---- - e7h4 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7456 -- Move: e7c5 -- Evaluation: 100 -- Move Index: 2
---- - e7c5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7854 -- Move: e7g5 -- Evaluation: 100 -- Move Index: 2
---- - e7g5 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8175 -- Move: e7d6 -- Evaluation: 100 -- Move Index: 2
---- - e7d6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8297 -- Move: e7f6 -- Evaluation: 0 -- Move Index: 2
---- - e7f6 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8821 -- Move: e7d7 -- Evaluation: 200 -- Move Index: 2
---- - e7d7 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 9014 -- Move: e7d8 -- Evaluation: 100 -- Move Index: 2
---- - e7d8 - e8g1 - c8b7 - e4b7 ---
---- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 9340 -- Move: e7f8 -- Evaluation: 200 -- Move Index: 2
---- - e7f8 - e8g1 - c8b7 - e4b7 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 158 -- Move: e8d7 -- Evaluation: 300 -- Move Index: 1
+--- - e8d7 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 313 -- Move: e8d8 -- Evaluation: 300 -- Move Index: 1
+--- - e8d8 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 562 -- Move: e8f8 -- Evaluation: 100 -- Move Index: 1
+--- - e8f8 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 842 -- Move: e8h8 -- Evaluation: 100 -- Move Index: 1
+--- - e8h8 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1014 -- Move: a4b3 -- Evaluation: 200 -- Move Index: 1
+--- - a4b3 - e8g1 - b3c2 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1599 -- Move: e6e5 -- Evaluation: 300 -- Move Index: 1
+--- - e6e5 - e8g1 - c8g4 - b2a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1795 -- Move: h6h5 -- Evaluation: 300 -- Move Index: 1
+--- - h6h5 - e8g1 - h5g4 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 1927 -- Move: b7b6 -- Evaluation: 500 -- Move Index: 1
+--- - b7b6 - e8g1 - a4b3 - b1a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2142 -- Move: c7c6 -- Evaluation: 200 -- Move Index: 1
+--- - c7c6 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2278 -- Move: f7f6 -- Evaluation: 300 -- Move Index: 1
+--- - f7f6 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2463 -- Move: g7g6 -- Evaluation: 500 -- Move Index: 1
+--- - g7g6 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2595 -- Move: b7b5 -- Evaluation: 500 -- Move Index: 1
+--- - b7b5 - e8g1 - a4b3 - b2c3 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 2839 -- Move: c7c5 -- Evaluation: 300 -- Move Index: 1
+--- - c7c5 - a2b3 - a4b3 - b2a3 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3154 -- Move: f7f5 -- Evaluation: 300 -- Move Index: 1
+--- - f7f5 - e8g1 - f5g4 - b2a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3291 -- Move: g7g5 -- Evaluation: 500 -- Move Index: 1
+--- - g7g5 - e8g1 - e8h8 - b2c3 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3400 -- Move: b8a6 -- Evaluation: 400 -- Move Index: 1
+--- - b8a6 - e8g1 - a4b3 - b1a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3548 -- Move: b8c6 -- Evaluation: 375 -- Move Index: 1
+--- - b8c6 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3705 -- Move: b8d7 -- Evaluation: 200 -- Move Index: 1
+--- - b8d7 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 3909 -- Move: a3b2 -- Evaluation: 0 -- Move Index: 1
+--- - a3b2 - b1b2 - e8d8 - f1b5 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4085 -- Move: a3b4 -- Evaluation: 400 -- Move Index: 1
+--- - a3b4 - e8g1 - b4d2 - b1a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4280 -- Move: a3c5 -- Evaluation: 200 -- Move Index: 1
+--- - a3c5 - e8g1 - a4b3 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4445 -- Move: a3d6 -- Evaluation: 200 -- Move Index: 1
+--- - a3d6 - h1h2 - d6h2 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4610 -- Move: c8d7 -- Evaluation: 300 -- Move Index: 1
+--- - c8d7 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 4906 -- Move: a8a5 -- Evaluation: 200 -- Move Index: 1
+--- - a8a5 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5005 -- Move: a8a6 -- Evaluation: 500 -- Move Index: 1
+--- - a8a6 - e8g1 - a4b3 - b1a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5185 -- Move: a8a7 -- Evaluation: 300 -- Move Index: 1
+--- - a8a7 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5286 -- Move: h8h7 -- Evaluation: 500 -- Move Index: 1
+--- - h8h7 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5412 -- Move: h8f8 -- Evaluation: 300 -- Move Index: 1
+--- - h8f8 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 5603 -- Move: h8g8 -- Evaluation: 300 -- Move Index: 1
+--- - h8g8 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6311 -- Move: e7b4 -- Evaluation: 100 -- Move Index: 1
+--- - e7b4 - e8g1 - b4e4 - b1a1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6513 -- Move: e7h4 -- Evaluation: 300 -- Move Index: 1
+--- - e7h4 - a2b3 - a4b3 - b2a3 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 6790 -- Move: e7c5 -- Evaluation: 300 -- Move Index: 1
+--- - e7c5 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7495 -- Move: e7g5 -- Evaluation: 300 -- Move Index: 1
+--- - e7g5 - a2b3 - a4b3 - b2a3 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 7796 -- Move: e7d6 -- Evaluation: 300 -- Move Index: 1
+--- - e7d6 - e8g1 - a3c1 - b2c1 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8150 -- Move: e7f6 -- Evaluation: 900 -- Move Index: 1
+--- - e7f6 - d2a3n - a4c8b - f6b2 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8334 -- Move: e7d7 -- Evaluation: 300 -- Move Index: 1
+--- - e7d7 - e8g1 - a4b3 - f6b2 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8507 -- Move: e7d8 -- Evaluation: 300 -- Move Index: 1
+--- - e7d8 - e8g1 - a3c1 - f6b2 ---
+--- Engine Color: b -- Search Color: b -- Depth: 0 -- Current αβ pruning index: 8687 -- Move: e7f8 -- Evaluation: 300 -- Move Index: 1
+--- - e7f8 - e8g1 - a4b3 - f6b2 ---

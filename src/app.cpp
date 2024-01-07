@@ -236,16 +236,16 @@ App::App(
     if (this->player_playing) {
         if (playing_color == chess::Color::WHITE) {
             this->main_engine = engineb;
-            this->main_engine->setBoard(&this->board);
+            this->main_engine->set_board(&this->board);
         } else {
             this->main_engine = enginew;
-            this->main_engine->setBoard(&this->board);
+            this->main_engine->set_board(&this->board);
         }
     } else {
         this->main_engine = enginew;
-        this->main_engine->setBoard(&this->board);
+        this->main_engine->set_board(&this->board);
         this->secondary_engine = engineb;
-        this->secondary_engine->setBoard(&this->board);
+        this->secondary_engine->set_board(&this->board);
     }
 
     for (int i = 0; i <= 18; i++)

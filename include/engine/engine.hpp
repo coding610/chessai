@@ -4,6 +4,6 @@
 
 class Engine {
 public:
-    virtual void setBoard(chess::Board* b) = 0;
+    virtual void set_board(chess::Board* b) = 0;
     virtual chess::Move think() = 0;
 };

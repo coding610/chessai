@@ -6,6 +6,8 @@
 #include "chess.hpp"
 #include "utils.hpp"
 
+using utils::DEB;
+using utils::DBN;
 
 chess::Move EngineV1::think() {
     this->diagnostics.new_move();
@@ -108,8 +110,11 @@ void EngineV1::order_moves(std::vector<chess::Move>& moves) {
         chess::PieceType piecetype_to = piece_to.type();
 
         // Most Valuable Victim, Least Valuable Aggressor (MVVLVA)
+        // Static Exchange Evaluation (SEE)
         if (piece_to != chess::Piece::NONE) {
-            score += this->get_piece_value(piece_to) - this->get_piece_value(piece_from);
+            this->board->makeMove(move);
+            score += this->see(square_to, this->board->sideToMove());
+            this->board->unmakeMove(move);
         }
 
         move.setScore(score);
@@ -118,10 +123,47 @@ void EngineV1::order_moves(std::vector<chess::Move>& moves) {
     std::sort(moves.begin(), moves.end(), utils::compare_score);
 }
 
-float see(chess::Move move) {
-    return 0.0;
+// https://www.chessprogramming.org/Static_Exchange_Evaluation
+// A recursive non-bitboard algorithm
+int EngineV1::see(chess::Square& square, int side) {
+    int value = 0;
+    chess::Square smallest_square = this->smallest_attacker(square, side); 
+
+    if (smallest_square != chess::Square::underlying::NO_SQ) {
+        chess::Move move = chess::Move::make(smallest_square, square);
+        this->board->makeMove(move);
+        value = std::max(0,  this->get_piece_value(this->board->at(square)) - this->see(square, !side));
+        this->board->unmakeMove(move);
+    }
+
+    return value;
 } 
 
+chess::Square EngineV1::smallest_attacker(chess::Square& square, int side) {
+    chess::Bitboard attackers = chess::attacks::attackers(*this->board, side, square, this->board->occ());
+
+    chess::Square smallest_square;
+    chess::Piece smallest_attacker = chess::Piece::WHITEKING;
+    for (int i = 0; i < 64; i++) {
+        // Fancy chess language for if index i on the bitboard is a piece
+        if (attackers & (1ULL << i)) {
+            chess::Piece attacker = this->board->at(chess::Square(i));
+            if (this->get_piece_value(attacker) < this->get_piece_value(smallest_attacker)) {
+                smallest_attacker = attacker;
+                smallest_square = chess::Square(i);
+            }
+        }
+    }
+
+    // King can't attack anything
+    if (smallest_attacker == chess::Piece::WHITEKING) {
+        return chess::Square::underlying::NO_SQ;
+    } else {
+        return smallest_square;
+    }
+}
+
+// Revert this to utils?
 int EngineV1::get_piece_value(chess::Piece p) {
     switch (p) {
         case 0: return this->PAWN_VALUE;
@@ -141,7 +183,7 @@ int EngineV1::get_piece_value(chess::Piece p) {
     }
 }
 
-float EngineV1::evaluate_fen() {
+int EngineV1::evaluate_fen() {
     this->diagnostics.positions_searched++;
     std::string fen = this->board->getFen();
 
@@ -171,6 +213,6 @@ EngineV1::EngineV1(chess::Color clr, int MAX_DEPTH) {
     this->diagnostics = Diagnostics();
 }
 
-void EngineV1::setBoard(chess::Board* b) {
+void EngineV1::set_board(chess::Board* b) {
     this->board = b;
 }
