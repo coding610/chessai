@@ -16,7 +16,8 @@
 
 ## Libaries this engine is using
     * SFML for graphics
-    * chess-libary by Disservin (https://github.com/Disservin/chess-library)
+    * chess-libary by Disservin for move validation
+    (https://github.com/Disservin/chess-library)
 
 ## Installation
     * Just clone it man
