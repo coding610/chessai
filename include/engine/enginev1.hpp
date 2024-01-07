@@ -39,6 +39,6 @@ public:
 
     float quiescense_search(float alpha, float beta);
     void order_moves(std::vector<chess::Move>& moves);
-    float see();
+    float see(chess::Move move);
     int get_piece_value(chess::Piece p);
 };

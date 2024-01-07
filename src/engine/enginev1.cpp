@@ -118,6 +118,10 @@ void EngineV1::order_moves(std::vector<chess::Move>& moves) {
     std::sort(moves.begin(), moves.end(), utils::compare_score);
 }
 
+float see(chess::Move move) {
+    return 0.0;
+} 
+
 int EngineV1::get_piece_value(chess::Piece p) {
     switch (p) {
         case 0: return this->PAWN_VALUE;
